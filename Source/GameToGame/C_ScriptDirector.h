@@ -60,7 +60,7 @@ public:
     AC_ScriptDirector();
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void ProcessDialog(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, bool &has_weapon, TArray<FText> &Answers);
+    void ProcessDialog(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, TArray<FText> &Answers);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialogResult(const int32 answer_idx, TArray<FDialogUnit> &dialog, ActionWithCard &action_with_card);

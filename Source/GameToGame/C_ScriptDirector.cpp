@@ -26,7 +26,7 @@ void AC_ScriptDirector::Tick(float DeltaTime)
 }
 
 
-void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, bool &has_weapon, TArray<FText> &Answers)
+void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, TArray<FText> &Answers)
 {
 }
 
