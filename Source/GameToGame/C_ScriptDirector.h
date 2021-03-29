@@ -10,6 +10,15 @@
 
 
 UENUM(BlueprintType)
+enum class CardType : uint8
+{
+    CHARACTER_CARD = 0 UMETA(DisplayName = "Персонаж"),
+    ITEM_CARD = 1 UMETA(DisplayName = "Предмет"),
+    EVENT_CARD = 2 UMETA(DisplayName = "Событие")
+};
+
+
+UENUM(BlueprintType)
 enum class SpeakerType : uint8
 {
     INTERLOCUTOR = 0 UMETA(DisplayName = "Собеседник"),
@@ -51,7 +60,7 @@ public:
     AC_ScriptDirector();
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void ProcessDialog(const AC_MasterCard *interact_card, TArray<FDialogUnit> &dialog, bool &has_weapon, TArray<FText> &Answers);
+    void ProcessDialog(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, bool &has_weapon, TArray<FText> &Answers);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialogResult(const int32 answer_idx, TArray<FDialogUnit> &dialog, ActionWithCard &action_with_card);
