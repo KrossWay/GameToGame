@@ -17,6 +17,15 @@ enum class SpeakerType : uint8
     STORYTELLER = 2 UMETA(DisplayName = "Рассказчик")
 };
 
+
+UENUM(BlueprintType)
+enum class ActionWithCard : uint8
+{
+    TAKE_CARD = 0 UMETA(DisplayName = "Взять карту"),
+    KILL_CARD = 1 UMETA(DisplayName = "Разрушить карту"),
+    BACK_CARD = 2 UMETA(DisplayName = "Вернуть карту на стол")
+};
+
 USTRUCT(Blueprintable)
 struct FDialogUnit
 {
@@ -41,8 +50,11 @@ public:
     // Sets default values for this actor's properties
     AC_ScriptDirector();
 
-    UFUNCTION(BlueprintNativeEvent)
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialog(const AC_MasterCard *interact_card, TArray<FDialogUnit> &dialog, bool &has_weapon, TArray<FText> &Answers);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void ProcessDialogResult(const int32 answer_idx, TArray<FDialogUnit> &dialog, ActionWithCard &action_with_card);
 
 protected:
     // Called when the game starts or when spawned
