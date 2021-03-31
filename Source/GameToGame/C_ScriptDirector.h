@@ -8,6 +8,10 @@
 #include "C_ScriptDirector.generated.h"
 
 
+// Quick UE_LOG
+#define ULOG(LEVEL, FORMAT, ...) UE_LOG(LogTemp, LEVEL, TEXT(FORMAT), __VA_ARGS__)
+
+
 UCLASS()
 class GAMETOGAME_API AC_ScriptDirector : public AActor
 {
@@ -23,12 +27,14 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialogResult(const int32 answer_idx, TArray<FDialogUnit> &dialog, ActionWithCard &action_with_card);
 
-protected:
-    // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
-
 public:	
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+protected:
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
+
+private:
+    void read_story_from_file(const FString story_filename);
 };
