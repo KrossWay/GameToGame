@@ -6,44 +6,125 @@
 
 
 static const FString DIALOG_KEY("Dialog");
+static const FString ANSWERS_KEY("Answers");
+static const FString ACTIONS_KEY("Actions");
 
-typedef TMap<FString, FString> ScriptLeaf_t;  // Last bunch of data and instructions in a script
+static const FString LEAF_TEXT_KEY("Text");
+static const FString LEAF_SPEAKER_KEY("Speaker");
+static const FString LEAF_SOUND_KEY("Sound");
+static const FString LEAF_EMOTION_KEY("Emotion");
+static const FString LEAF_ACTIONS_KEY("Actions");
+
+typedef TSharedRef<FJsonObject> JsonObjectRef;
+typedef TSharedPtr<FJsonObject> JsonObjectPtr;
+
+typedef TArray<FString> Actions_t;
+// Last bunch of data and instructions in a script
+struct ScriptLeaf_s
+{
+    FString Text;
+    FString Speaker;
+    FString Sound;
+    FString Emotion;
+    Actions_t Actions;
+};
+typedef TSharedRef<ScriptLeaf_s> ScriptLeaf_t;
+
 typedef TArray<ScriptLeaf_t> Dialog_t;
-typedef TArray<ScriptLeaf_t> Answer_t;
-typedef TArray<FString> Action_t;
+typedef TArray<ScriptLeaf_t> Answers_t;
 
 struct Condition_s
 {
-    TArray<Dialog_t> dialogs;
-    TArray<Answer_t> answers;
-    TArray<Action_t> actions;
+    Dialog_t dialog;
+    Answers_t answers;
+    Actions_t actions;
 };
-typedef TSharedPtr<Condition_s> Condition_t;
+typedef TSharedRef<Condition_s> Condition_t;
 
 typedef TSharedPtr<TMap<FString, Condition_t>> CardObject_t;
 typedef TSharedPtr<TMap<FString, CardObject_t>> Act_t;
 typedef TSharedPtr<TMap<FString, Act_t>> Script_t;
 
 
+Actions_t load_actions(JsonObjectRef json_leaf)
+{
+    const TArray<TSharedPtr<FJsonValue>>* json_values_array;
+    Actions_t actions;
+    if (json_leaf->TryGetArrayField(ACTIONS_KEY, json_values_array))
+    {
+        check(json_values_array);
+        for (auto json_value : *json_values_array)
+            actions.Add(json_value->AsString());
+    }
+    return actions;
+}
+
+ScriptLeaf_t load_leaf(JsonObjectRef json_leaf)
+{
+    ULOG(Log, "Restoring a Script leaf");
+
+    ScriptLeaf_t leaf;
+    try
+    {
+        auto json_leaf_dict = json_leaf->Values;
+
+        json_leaf->TryGetStringField(LEAF_TEXT_KEY, leaf->Text);
+        json_leaf->TryGetStringField(LEAF_SPEAKER_KEY, leaf->Speaker);
+        json_leaf->TryGetStringField(LEAF_SOUND_KEY, leaf->Sound);
+        json_leaf->TryGetStringField(LEAF_EMOTION_KEY, leaf->Emotion);
 
 
-Condition_t load_condition(TSharedRef<FJsonObject> json_condition)
+        //if ()
+        //{
+        //    check(json_values_array);
+        //    for (auto json_value : *json_values_array)
+        //        dialog.Add(load_leaf(json_value->AsObject().ToSharedRef()));
+        //}
+    }
+    catch (const std::exception& ex)
+        {
+            ULOG(Error, "Error accured while loading Leaf:\n%s", ex.what());
+        }
+    
+    ULOG(Log, "Restoring a Script leaf finished");
+    return leaf;
+}
+
+Condition_t load_condition(JsonObjectRef json_conditions)
 {
     ULOG(Log, "Restoring a Condition");
 
     Condition_t condition;
 
-    for (auto json_condition_val : json_condition->Values)
+    for (auto json_condition : json_conditions->Values)
     {
-        ULOG(Log, "Key found: %s", *json_condition_val.Key);
+        ULOG(Log, "Key found: %s", *json_condition.Key);
+
         try
         {
-            const TArray<TSharedPtr<FJsonValue>>* out_array;
-            if (json_condition->TryGetArrayField(DIALOG_KEY, out_array))
+            auto& json_condition_val = json_condition.Value->AsObject();
+            const TArray<TSharedPtr<FJsonValue>>* json_values_array;
+
+            if (json_condition_val->TryGetArrayField(DIALOG_KEY, json_values_array))
             {
+                check(json_values_array);
+                for (auto json_value : *json_values_array)
+                    condition->dialog.Add(load_leaf(json_value->AsObject().ToSharedRef()));
             }
-            //auto act = load_act(json_card_obj.Value->AsObject().ToSharedRef());
-            //card_obj->Add(json_card_obj.Key, act);
+
+            if (json_condition_val->TryGetArrayField(ANSWERS_KEY, json_values_array))
+            {
+                check(json_values_array);
+                for (auto json_value : *json_values_array)
+                    condition->answers.Add(load_leaf(json_value->AsObject().ToSharedRef()));
+            }
+
+            if (json_condition_val->TryGetArrayField(ACTIONS_KEY, json_values_array))
+            {
+                check(json_values_array);
+                for (auto json_value : *json_values_array)
+                    condition->actions.Add(json_value->AsString());
+            }
         }
         catch (const std::exception& ex)
         {
@@ -55,7 +136,7 @@ Condition_t load_condition(TSharedRef<FJsonObject> json_condition)
     return condition;
 }
 
-CardObject_t load_card_object(TSharedRef<FJsonObject> json_card_object)
+CardObject_t load_card_object(JsonObjectRef json_card_object)
 {
     ULOG(Log, "Restoring a Card object");
 
@@ -79,7 +160,7 @@ CardObject_t load_card_object(TSharedRef<FJsonObject> json_card_object)
     return card_objects;
 }
 
-Act_t load_act(TSharedRef<FJsonObject> json_act)
+Act_t load_act(JsonObjectRef json_act)
 {
     ULOG(Log, "Restoring an Act");
 
@@ -103,7 +184,7 @@ Act_t load_act(TSharedRef<FJsonObject> json_act)
     return card_objects;
 }
 
-Script_t load_script(TSharedRef<FJsonObject> json_root)
+Script_t load_script(JsonObjectRef json_root)
 {
     ULOG(Log, "Loading a Script");
     //FString ExampleString = json_root->GetStringField("exampleString");
@@ -140,7 +221,7 @@ void ParseExample()
 {
     ULOG(Log, "Enter the ParseExample()");
 
-    const FString SCRIPT_FILENAME("script.json");
+    const FString SCRIPT_FILENAME("Data/script.json");
     const FString script_full_path = FPaths::ProjectDir().Append(SCRIPT_FILENAME);
 
     FString json_raw;
@@ -149,7 +230,7 @@ void ParseExample()
         ULOG(Error, "Failed LoadJson : %s", *script_full_path);
     }
 
-    TSharedPtr<FJsonObject> json_object;
+    JsonObjectPtr json_object;
     TSharedRef<TJsonReader<TCHAR>> json_reader = TJsonReaderFactory<TCHAR>::Create(json_raw);
 
     if (FJsonSerializer::Deserialize(json_reader, json_object) && json_object.IsValid())
