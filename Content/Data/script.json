@@ -1,106 +1,106 @@
 {
-    "Act1": {
-        "Intro": {
-            "Dialog": [
-                {
-                    "Text": "Intro text1",
-                    "Sound": "IntroSoundName",
-                    "Emotion": "None"
-                },
-                {
-                    "Text": "Intro text2"
-                }
-            ],
+  "Act1": {
+    "Character1": {
+      "Default": {
+        "Dialog": [
+          {
+            "Text": "Bla-bla1 (Mandatory)",
+            "Speaker": "Character (Optional, StoryTeller by default)",
+            "Sound": "SoundName1",
+            "Emotion": "SpeakerEmotion"
+          },
+          {
+            "Text": "Bla-bla2",
+            "Speaker": "Hero",
+            "Sound": "SoundName2",
+            "Emotion": "SpeakerEmotion"
+          }
+        ],
+        "Answers": [
+          {
+            "Text": "Answer bla-bla 1",
             "Actions": [
-                "Show Image1"
+              "Note a1_c1_def_ans1"
             ]
+          },
+          {
+            "Text": "Answer bla-bla 2"
+          }
+        ],
+        "Actions": [
+          "SpeakAgain"
+        ]
+      },
+      "a1_c1_def_ans1": {
+        "Dialog": [],
+        "Answers": [],
+        "Actions": []
+      }
+    },
+    "Item1": {
+      "Default": {
+        "Answers": [
+          {
+            "Text": "Take Item1",
+            "Action": "Take Item1"
+          },
+          {
+            "Text": "Leave Item1",
+            "Action": "Note LeaveItem1"
+          }
+        ],
+        "Actions": [
+          "DropCard"
+        ],
+        "Dialog": [
+          {
+            "Text": "Item description",
+            "Emotion": "WowEmotion"
+          }
+        ]
+      }
+    },
+    "Event1": {
+      "Take Item1": {
+        "Dialog": [
+          {
+            "Text": "Event description",
+            "Sound": "PeacefulSound",
+            "Emotion": "PeacefulEmoiton"
+          },
+          {
+            "Text": "Event description continue",
+            "Emotion": "PeacefulEmoiton"
+          }
+        ],
+        "Answers": [
+          {
+            "Text": "Take a picture",
+            "Action": "Take Photo Event1"
+          },
+          {
+            "Text": "Leave the place"
+          }
+        ],
+        "Actions": [
+          "DropCard"
+        ]
+      }
+    },
+    "Intro": {
+      "Dialog": [
+        {
+          "Text": "Intro text1",
+          "Sound": "IntroSoundName",
+          "Emotion": "None"
         },
-        "Character1": {
-            "Default": {
-                "Dialog:": [
-                    {
-                        "Text": "Bla-bla1 (Mandatory)",
-                        "Speaker": "Character (Optional, StoryTeller by default)",
-                        "Sound": "SoundName1",
-                        "Emotion": "SpeakerEmotion"
-                    },
-                    {
-                        "Text": "Bla-bla2",
-                        "Speaker": "Hero",
-                        "Sound": "SoundName2",
-                        "Emotion": "SpeakerEmotion"
-                    }
-                ],
-                "Answers": [
-                    {
-                        "Text": "Answer bla-bla 1",
-                        "Actions":[
-                            "Note a1_c1_def_ans1"
-                        ]
-                    },
-                    {
-                        "Text": "Answer bla-bla 2"
-                    }
-                ],
-                "Actions": [
-                    "SpeakAgain"
-                ]
-            },
-            "a1_c1_def_ans1": {
-                "Dialog": [],
-                "Answers": [],
-                "Actions": []
-            }
-        },
-        "Item1": {
-            "Default": {
-                "Dialog:": [
-                    {
-                        "Text": "Item description",
-                        "Emotion": "WowEmotion"
-                    }
-                ],
-                "Answers": [
-                    {
-                        "Text": "Take Item1",
-                        "Action": "Take Item1"
-                    },
-                    {
-                        "Text": "Leave Item1",
-                        "Action": "Note LeaveItem1"
-                    }
-                ],
-                "Actions": [
-                    "DropCard"
-                ]
-            }
-        },
-        "Event1": {
-            "Take Item1": {
-                "Dialog": [
-                    {
-                        "Text": "Event description",
-                        "Sound": "PeacefulSound",
-                        "Emotion": "PeacefulEmoiton"
-                    },
-                    {
-                        "Text": "Event description continue",
-                        "Emotion": "PeacefulEmoiton"
-                    }
-                ],
-                "Answers": [
-                    {
-                        "Text": "Take a picture",
-                        "Action": "Take Photo Event1"
-                    },
-                    {
-                        "Text": "Leave the place"
-                    }
-                ],
-                "Actions": [
-                    "DropCard"
-                ]
-            }
+        {
+          "Text": "Intro text2"
         }
+      ],
+      "Actions": [
+        "Show Image1"
+      ]
     }
+  }
 }
