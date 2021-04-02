@@ -16,6 +16,9 @@ public:
     // Sets default values for this actor's properties
     AC_MasterCard();
 
+    UPROPERTY(BlueprintReadWrite)
+    FString card_name;
+
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;

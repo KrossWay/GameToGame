@@ -3,11 +3,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "common_structures.h"
+#include "C_Script.h"
 #include "C_ScriptDirector.generated.h"
-
-
-// Quick UE_LOG
-#define ULOG(LEVEL, FORMAT, ...) UE_LOG(LogTemp, LEVEL, TEXT(FORMAT), __VA_ARGS__)
 
 
 UCLASS()
@@ -35,4 +32,6 @@ protected:
 
 private:
     void read_story_from_file(const FString story_filename);
+
+    Script_p script;
 };

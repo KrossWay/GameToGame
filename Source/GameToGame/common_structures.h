@@ -13,7 +13,6 @@ enum class CardType : uint8
     EVENT_CARD = 2 UMETA(DisplayName = "Событие")
 };
 
-
 UENUM(BlueprintType)
 enum class SpeakerType : uint8
 {
@@ -22,13 +21,23 @@ enum class SpeakerType : uint8
     STORYTELLER = 2 UMETA(DisplayName = "Рассказчик")
 };
 
-
 UENUM(BlueprintType)
 enum class ActionWithCard : uint8
 {
     TAKE_CARD = 0 UMETA(DisplayName = "Взять карту"),
     KILL_CARD = 1 UMETA(DisplayName = "Разрушить карту"),
-    BACK_CARD = 2 UMETA(DisplayName = "Вернуть карту на стол")
+    BACK_CARD = 2 UMETA(DisplayName = "Вернуть карту на стол"),
+    RESPEAK_CARD = 3 UMETA(DisplayName = "Говорить с картой снова")
+};
+
+UENUM(BlueprintType)
+enum class CardEmotion : uint8
+{
+    EMOTION_DEFAULT = 0 UMETA(DisplayName = "Простая (Default)"),
+    EMOTION_HAPPY = 1 UMETA(DisplayName = "Радость"),
+    EMOTION_ANGRY = 2 UMETA(DisplayName = "Злость"),
+    EMOTION_WONDERING = 3 UMETA(DisplayName = "Удивление"),
+    EMOTION_NONE = 255 UMETA(DisplayName = "Пустота")
 };
 
 USTRUCT(Blueprintable)
@@ -40,9 +49,12 @@ struct FDialogUnit
     SpeakerType speaker_type;
 
     UPROPERTY(BlueprintReadWrite)
-    FText text_to_print; // TODO: read this https://docs.unrealengine.com/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/StringHandling/FText/index.html
+    FText text_to_print;
 
     UPROPERTY(BlueprintReadWrite)
     USoundCue *sound;
+
+    UPROPERTY(BlueprintReadWrite)
+    CardEmotion emotion;
 };
 
