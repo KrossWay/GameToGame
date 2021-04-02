@@ -5,6 +5,7 @@
 
 // Sets default values
 AC_MasterCard::AC_MasterCard()
+    : card_name("Say my name")
 {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
