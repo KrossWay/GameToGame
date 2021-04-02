@@ -49,7 +49,7 @@ struct FDialogUnit
     SpeakerType speaker_type;
 
     UPROPERTY(BlueprintReadWrite)
-    FText text_to_print; // TODO: read this https://docs.unrealengine.com/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/StringHandling/FText/index.html
+    FText text_to_print;
 
     UPROPERTY(BlueprintReadWrite)
     USoundCue *sound;
