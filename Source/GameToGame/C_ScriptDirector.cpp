@@ -28,7 +28,7 @@ struct ScriptLeaf_s
     FString Emotion;
     Actions_t Actions;
 };
-typedef TSharedRef<ScriptLeaf_s> ScriptLeaf_t;
+typedef TSharedPtr<ScriptLeaf_s> ScriptLeaf_t;
 
 typedef TArray<ScriptLeaf_t> Dialog_t;
 typedef TArray<ScriptLeaf_t> Answers_t;
@@ -39,7 +39,7 @@ struct Condition_s
     Answers_t answers;
     Actions_t actions;
 };
-typedef TSharedRef<Condition_s> Condition_t;
+typedef TSharedPtr<Condition_s> Condition_t;
 
 typedef TSharedPtr<TMap<FString, Condition_t>> CardObject_t;
 typedef TSharedPtr<TMap<FString, CardObject_t>> Act_t;
@@ -64,27 +64,20 @@ ScriptLeaf_t load_leaf(JsonObjectRef json_leaf)
     ULOG(Log, "Restoring a Script leaf");
 
     ScriptLeaf_t leaf;
-    try
-    {
-        auto json_leaf_dict = json_leaf->Values;
+    auto json_leaf_dict = json_leaf->Values;
 
-        json_leaf->TryGetStringField(LEAF_TEXT_KEY, leaf->Text);
-        json_leaf->TryGetStringField(LEAF_SPEAKER_KEY, leaf->Speaker);
-        json_leaf->TryGetStringField(LEAF_SOUND_KEY, leaf->Sound);
-        json_leaf->TryGetStringField(LEAF_EMOTION_KEY, leaf->Emotion);
+    json_leaf->TryGetStringField(LEAF_TEXT_KEY, leaf->Text);
+    json_leaf->TryGetStringField(LEAF_SPEAKER_KEY, leaf->Speaker);
+    json_leaf->TryGetStringField(LEAF_SOUND_KEY, leaf->Sound);
+    json_leaf->TryGetStringField(LEAF_EMOTION_KEY, leaf->Emotion);
 
 
-        //if ()
-        //{
-        //    check(json_values_array);
-        //    for (auto json_value : *json_values_array)
-        //        dialog.Add(load_leaf(json_value->AsObject().ToSharedRef()));
-        //}
-    }
-    catch (const std::exception& ex)
-        {
-            ULOG(Error, "Error accured while loading Leaf:\n%s", ex.what());
-        }
+    //if ()
+    //{
+    //    check(json_values_array);
+    //    for (auto json_value : *json_values_array)
+    //        dialog.Add(load_leaf(json_value->AsObject().ToSharedRef()));
+    //}
     
     ULOG(Log, "Restoring a Script leaf finished");
     return leaf;
@@ -100,39 +93,55 @@ Condition_t load_condition(JsonObjectRef json_conditions)
     {
         ULOG(Log, "Key found: %s", *json_condition.Key);
 
-        try
+        //auto tmp_obj = json_condition_val.Value->AsObject();
+        //if (tmp_obj)
+        //{
+        //    auto act = load_condition(tmp_obj.ToSharedRef());
+        //    card_objects->Add(json_condition_val.Key, act);
+        //}
+        //else
+        //    ULOG(Error, "Error while loading Card object.");
+
+        auto& json_condition_val = json_condition.Value->AsObject();
+        const TArray<TSharedPtr<FJsonValue>>* json_values_array;
+
+        if (json_condition_val->TryGetArrayField(DIALOG_KEY, json_values_array))
         {
-            auto& json_condition_val = json_condition.Value->AsObject();
-            const TArray<TSharedPtr<FJsonValue>>* json_values_array;
-
-            if (json_condition_val->TryGetArrayField(DIALOG_KEY, json_values_array))
+            check(json_values_array);
+            for (auto json_value : *json_values_array)
             {
-                check(json_values_array);
-                for (auto json_value : *json_values_array)
-                    condition->dialog.Add(load_leaf(json_value->AsObject().ToSharedRef()));
-            }
-
-            if (json_condition_val->TryGetArrayField(ANSWERS_KEY, json_values_array))
-            {
-                check(json_values_array);
-                for (auto json_value : *json_values_array)
-                    condition->answers.Add(load_leaf(json_value->AsObject().ToSharedRef()));
-            }
-
-            if (json_condition_val->TryGetArrayField(ACTIONS_KEY, json_values_array))
-            {
-                check(json_values_array);
-                for (auto json_value : *json_values_array)
-                    condition->actions.Add(json_value->AsString());
+                auto tmp_json_obj = json_value->AsObject();
+                if (tmp_json_obj)
+                    condition->dialog.Add(load_leaf(tmp_json_obj.ToSharedRef()));
+                else
+                    ULOG(Error, "Error while loading Dialog.");
             }
         }
-        catch (const std::exception& ex)
+
+        if (json_condition_val->TryGetArrayField(ANSWERS_KEY, json_values_array))
         {
-            ULOG(Error, "Error accured while loading Condition:\n%s", ex.what());
+            check(json_values_array);
+            for (auto json_value : *json_values_array)
+            {
+                auto tmp_json_obj = json_value->AsObject();
+                if (tmp_json_obj)
+                    condition->answers.Add(load_leaf(tmp_json_obj.ToSharedRef()));
+                else
+                    ULOG(Error, "Error while loading Dialog.");
+            }
+        }
+
+        if (json_condition_val->TryGetArrayField(ACTIONS_KEY, json_values_array))
+        {
+            check(json_values_array);
+
+            for (auto json_value : *json_values_array)
+            {
+                condition->actions.Add(json_value->AsString());
+                check(condition->actions.Last().Len());
+            }
         }
     }
-
-    ULOG(Log, "Restoring a Condition finished");
     return condition;
 }
 
@@ -145,15 +154,14 @@ CardObject_t load_card_object(JsonObjectRef json_card_object)
     for (auto json_condition_val : json_card_object->Values)
     {
         ULOG(Log, "Key found: %s", *json_condition_val.Key);
-        try
+        auto tmp_json_obj = json_condition_val.Value->AsObject();
+        if (tmp_json_obj)
         {
-            auto condition_object = load_condition(json_condition_val.Value->AsObject().ToSharedRef());
-            card_objects->Add(json_condition_val.Key, condition_object);
+            auto act = load_condition(tmp_json_obj.ToSharedRef());
+            card_objects->Add(json_condition_val.Key, act);
         }
-        catch (const std::exception& ex)
-        {
-            ULOG(Error, "Error accured while loading Card object:\n%s", ex.what());
-        }
+        else
+            ULOG(Error, "Error while loading Card object.");
     }
 
     ULOG(Log, "Restoring a Card object finished");
@@ -169,15 +177,14 @@ Act_t load_act(JsonObjectRef json_act)
     for (auto json_card_val : json_act->Values)
     {
         ULOG(Log, "Key found: %s", *json_card_val.Key);
-        try
+        auto tmp_json_obj = json_card_val.Value->AsObject();
+        if (tmp_json_obj)
         {
-            auto act = load_card_object(json_card_val.Value->AsObject().ToSharedRef());
+            auto act = load_card_object(tmp_json_obj.ToSharedRef());
             card_objects->Add(json_card_val.Key, act);
         }
-        catch (const std::exception& ex)
-        {
-            ULOG(Error, "Error while loading Act: \n%s", ex.what());
-        }
+        else
+            ULOG(Error, "Error while loading Act.");
     }
 
     ULOG(Log, "Restoring an Act finished");
@@ -202,15 +209,15 @@ Script_t load_script(JsonObjectRef json_root)
     for (auto json_act_val : json_root->Values)
     {
         ULOG(Log, "Key found: %s", *json_act_val.Key);
-        try
+
+        auto tmp_json_obj = json_act_val.Value->AsObject();
+        if (tmp_json_obj)
         {
-            auto act = load_act(json_act_val.Value->AsObject().ToSharedRef());
+            auto act = load_act(tmp_json_obj.ToSharedRef());
             script->Add(json_act_val.Key, act);
         }
-        catch (const std::exception& ex)
-        {
-            ULOG(Error, "Error while loading Script: \n%s", ex.what());
-        }
+        else
+            ULOG(Error, "Error while loading Script.");
     }
     
     ULOG(Log, "Loading a Script finished");
@@ -222,7 +229,7 @@ void ParseExample()
     ULOG(Log, "Enter the ParseExample()");
 
     const FString SCRIPT_FILENAME("Data/script.json");
-    const FString script_full_path = FPaths::ProjectDir().Append(SCRIPT_FILENAME);
+    const FString script_full_path = FPaths::ProjectContentDir().Append(SCRIPT_FILENAME);
 
     FString json_raw;
     if (FFileHelper::LoadFileToString(json_raw, *script_full_path) == false)
@@ -239,7 +246,7 @@ void ParseExample()
     }
     else
     {
-        ULOG(Error, "Unable to load script from file \"%s\"", *script_full_path);
+        ULOG(Error, "Unable to load script from file \"%s\"\nJson error messsage:\"%s\"", *script_full_path, *json_reader->GetErrorMessage());
     }
 }
 
@@ -248,7 +255,7 @@ AC_ScriptDirector::AC_ScriptDirector()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    ParseExample();
+    //ParseExample();
 }
 
 void AC_ScriptDirector::Tick(float DeltaTime)
