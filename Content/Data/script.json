@@ -1,106 +1,158 @@
 {
-  "Act1": {
-    "Character1": {
-      "Default": {
-        "Dialog": [
-          {
-            "Text": "Bla-bla1 (Mandatory)",
-            "Speaker": "Character (Optional, StoryTeller by default)",
-            "Sound": "SoundName1",
-            "Emotion": "SpeakerEmotion"
-          },
-          {
-            "Text": "Bla-bla2",
-            "Speaker": "Hero",
-            "Sound": "SoundName2",
-            "Emotion": "SpeakerEmotion"
-          }
-        ],
-        "Answers": [
-          {
-            "Text": "Answer bla-bla 1",
-            "Actions": [
-              "Note a1_c1_def_ans1"
-            ]
-          },
-          {
-            "Text": "Answer bla-bla 2"
-          }
-        ],
-        "Actions": [
-          "SpeakAgain"
-        ]
-      },
-      "a1_c1_def_ans1": {
-        "Dialog": [],
-        "Answers": [],
-        "Actions": []
-      }
-    },
-    "Item1": {
-      "Default": {
-        "Answers": [
-          {
-            "Text": "Take Item1",
-            "Action": "Take Item1"
-          },
-          {
-            "Text": "Leave Item1",
-            "Action": "Note LeaveItem1"
-          }
-        ],
-        "Actions": [
-          "DropCard"
-        ],
-        "Dialog": [
-          {
-            "Text": "Item description",
-            "Emotion": "WowEmotion"
-          }
-        ]
-      }
-    },
-    "Event1": {
-      "Take Item1": {
-        "Dialog": [
-          {
-            "Text": "Event description",
-            "Sound": "PeacefulSound",
-            "Emotion": "PeacefulEmoiton"
-          },
-          {
-            "Text": "Event description continue",
-            "Emotion": "PeacefulEmoiton"
-          }
-        ],
-        "Answers": [
-          {
-            "Text": "Take a picture",
-            "Action": "Take Photo Event1"
-          },
-          {
-            "Text": "Leave the place"
-          }
-        ],
-        "Actions": [
-          "DropCard"
-        ]
-      }
-    },
-    "Intro": {
-      "Dialog": [
-        {
-          "Text": "Intro text1",
-          "Sound": "IntroSoundName",
-          "Emotion": "None"
+    "Act1": {
+        "Intro": {
+            "Default": {
+                "Dialog": [
+                    {
+                        "Text": "На Земле идет ожесточенная война, которая не может закончится уже несколько десятилетий.",
+                        "Emotion": "None",
+                        "Sound": "Intro1Sound"
+                    },
+                    {
+                        "Text": "Вы - Джон Буллок, солдат спецподразделения, который на этой войне потерял всю свою семью. Спустя несколько месяцев после этого происшествия, вас призывают в штаб Управления, для получения нового задания."
+                    }
+                ],
+                "Actions": [
+                    "Show Image1"
+                ]
+            }
         },
-        {
-          "Text": "Intro text2"
+        "Агент управления": {
+            "Default": {
+                "Dialog": [
+                    {
+                        "Text": "Здравствуй, Джон. Перейдем сразу к делу. Ваше задание - сопроводить экспедицию ученых. На дне океана мы обнаружили предмет, который, возможно, переломит ход войны.",
+                        "Speaker": "Character"
+                    },
+                    {
+                        "Text": "Вопросы есть?",
+                        "Speaker": "Character"
+                    }
+                ],
+                "Answers": [
+                    {
+                        "Text": "И что это за предмет?",
+                        "Actions": [
+                            "Note a1_Agent_def_ans1"
+                        ]
+                    },
+                    {
+                        "Text": "Я сейчас должен быть там, воевать плечом к плечу со своими людьми! Зачем я здесь, если это простая экспедиция?",
+                        "Actions": [
+                            "Note a1_Agent_def_ans2"
+                        ]
+                    },
+                    {
+                        "Text": "Я сделаю все, что в моих силах, чтобы война скорее закончилась.",
+                        "Actions": [
+                            "Note a1_Agent_def_ans3"
+                        ]
+                    }
+                ],
+                "Actions": [
+                    "Note a1_Agent_def",
+                    "SpeakAgain"
+                ]
+            },
+            "a1_Agent_def_ans1": {
+                "Dialog": [
+                    {
+                        "Text": "Извини, Джон, но это информация строго классифицирована и у тебя нет к ней доступа. А теперь давай заканчивать, времени совсем в обрез.",
+                        "Speaker": "Character"
+                    }
+                ]
+            },
+            "a1_Agent_def_ans2": {
+                "Dialog": [
+                    {
+                        "Text": "Мы не знаем, в какой момент на нас могут напасть. Ты здесь нужен для сопровождения, проследить, чтобы операция прошла гладко. А теперь давай заканчивать, времени почти не осталось.",
+                        "Speaker": "Character"
+                    }
+                ]
+            },
+            "a1_Agent_def_ans3": {
+                "Dialog": [
+                    {
+                        "Text": "Превосходно, очень рады это слышать. Поэтому мы тебя и выбрали. А теперь давай заканчивать, времени совсем мало.",
+                        "Speaker": "Character"
+                    }
+                ]
+            }
+        },
+        "Мэттьюз": {
+            "Default": {
+                "Dialog": [
+                    {
+                        "Text": "Джон, черт возьми, не думал, что увижу тебя когда-нибудь еще.",
+                        "Speaker": "Character"
+                    },
+                    {
+                        "Text": "Я слышал о твоей семье, мне очень жаль. Эта война забрала слишком много жизней. Как ты вообще, держишься?",
+                        "Speaker": "Character"
+                    }
+                ],
+                "Answers": [
+                    {
+                        "Text": "Рад тебя видеть, старый друг. Да, держусь, будто у меня есть выбор. Ну и что делать с этими коробками?"
+                    },
+                    {
+                        "Text": "Здравствуй, Мэт. Давай уже поскорее с этим закончим, куда мне ставить эти коробки?"
+                    }
+                ],
+                "Actions": [
+                    "Note a1_Matiz_def",
+                    "SpeakAgain"
+                ]
+            },
+            "a1_Matiz_def": {
+                "Dialog": [
+                    {
+                        "Text": "Пойдем, я тебе покажу.",
+                        "Speaker": "Character"
+                    }
+                ]
+            }
+        },
+        "Сержант": {
+            "Default": {
+                "Dialog": [
+                    {
+                        "Text": "Джон, ты уже поговорил с Управлением?",
+                        "Speaker": "Character"
+                    },
+                    {
+                        "Text": "Еще нет, скоро вернусь.",
+                        "Speaker": "Hero"
+                    }
+                ]
+            },
+            "a1_Agent_def": {
+                "Dialog": [
+                    {
+                        "Text": "Джон, осталось последнее и мы можем отправляться, тебя ждут в зоне погрузки, там нужна твоя помощь.",
+                        "Speaker": "Character"
+                    },
+                    {
+                        "Text": "Одна нога тут, другая там.",
+                        "Speaker": "Hero"
+                    }
+                ]
+            },
+            "a1_Agent_def,a1_Matiz_def": {
+                "Dialog": [
+                    {
+                        "Text": "Ну что, ты готов?",
+                        "Speaker": "Character"
+                    },
+                    {
+                        "Text": "Так точно. Можем отправляться.",
+                        "Speaker": "Hero"
+                    }
+                ],
+                "Actions":[
+                    "NextAct"
+                ]
+            }
         }
-      ],
-      "Actions": [
-        "Show Image1"
-      ]
     }
-  }
 }
