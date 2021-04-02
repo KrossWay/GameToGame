@@ -223,7 +223,6 @@ AC_ScriptDirector::AC_ScriptDirector()
     PrimaryActorTick.bCanEverTick = true;
 
     auto script = ParseExample();
-    auto act1 = script.Get()['Act1'];
 }
 
 void AC_ScriptDirector::Tick(float DeltaTime)
