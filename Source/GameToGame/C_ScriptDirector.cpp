@@ -65,7 +65,7 @@ Actions_p load_actions(JsonObjectRef json_leaf)
 
 ScriptLeaf_p load_leaf(JsonObjectRef json_leaf)
 {
-    ULOG(Log, "Restoring a Script leaf");
+    ULOG(Log, "Loading a Script leaf");
 
     ScriptLeaf_p leaf = MakeShared<ScriptLeaf_s>();
     auto json_leaf_dict = json_leaf->Values;
@@ -76,13 +76,13 @@ ScriptLeaf_p load_leaf(JsonObjectRef json_leaf)
     json_leaf->TryGetStringField(LEAF_EMOTION_KEY, leaf->emotion);
     leaf->actions = load_actions(json_leaf);
     
-    ULOG(Log, "Restoring a Script leaf finished");
+    ULOG(Log, "Loading a Script leaf finished");
     return leaf;
 }
 
 Condition_p load_condition(JsonObjectRef json_conditions)
 {
-    ULOG(Log, "Restoring a Condition");
+    ULOG(Log, "Loading a Condition");
 
     Condition_p condition = MakeShared<Condition_s>();
     const TArray<TSharedPtr<FJsonValue>>* json_values_array;
@@ -122,7 +122,7 @@ Condition_p load_condition(JsonObjectRef json_conditions)
 
 CardObject_p load_card_object(JsonObjectRef json_card_object)
 {
-    ULOG(Log, "Restoring a Card object");
+    ULOG(Log, "Loading a Card object");
 
     CardObject_p card_objects = MakeShared<CardObject_t>();
 
@@ -139,13 +139,13 @@ CardObject_p load_card_object(JsonObjectRef json_card_object)
             ULOG(Error, "Error while loading Card object.");
     }
 
-    ULOG(Log, "Restoring a Card object finished");
+    ULOG(Log, "Loading a Card object finished");
     return card_objects;
 }
 
 Act_p load_act(JsonObjectRef json_act)
 {
-    ULOG(Log, "Restoring an Act");
+    ULOG(Log, "Loading an Act");
 
     Act_p card_objects = MakeShared<Act_t>();
 
@@ -162,22 +162,13 @@ Act_p load_act(JsonObjectRef json_act)
             ULOG(Error, "Error while loading Act.");
     }
 
-    ULOG(Log, "Restoring an Act finished");
+    ULOG(Log, "Loading an Act finished");
     return card_objects;
 }
 
 Script_p load_script(JsonObjectRef json_root)
 {
     ULOG(Log, "Loading a Script");
-    //FString ExampleString = json_root->GetStringField("exampleString");
-    //auto json_parsed_ptr = json_root.Get();
-
-    //TArray<FString> keys;
-    //json_root->Values.GetKeys(keys);
-    //for (auto& key : keys)
-    //{
-    //    ULOG(Warning, "Key: %s", *key);
-    //}
 
     Script_p script = MakeShared<Script_t>();
 
