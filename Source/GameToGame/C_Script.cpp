@@ -16,29 +16,6 @@ typedef TSharedPtr<FJsonObject> JsonObjectPtr;
 typedef TSharedRef<FJsonValue> JsonValueRef;
 typedef TSharedPtr<FJsonValue> JsonValuePtr;
 
-typedef TArray<FString> Actions_t;
-typedef TSharedPtr<Actions_t> Actions_p;
-// Last bunch of data and instructions in a script
-struct ScriptLeaf_s
-{
-    FString text;
-    FString speaker;
-    FString sound;
-    FString emotion;
-    Actions_p actions;
-};
-typedef TSharedPtr<ScriptLeaf_s> ScriptLeaf_p;
-
-typedef TArray<ScriptLeaf_p> Dialog_t;
-typedef TArray<ScriptLeaf_p> Answers_t;
-
-struct Condition_s
-{
-    Dialog_t dialog;
-    Answers_t answers;
-    Actions_p actions;
-};
-
 Actions_p load_actions(JsonObjectRef json_leaf)
 {
     ULOG(Log, "Loading Actions.");

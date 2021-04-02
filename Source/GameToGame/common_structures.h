@@ -16,18 +16,16 @@ enum class CardType : uint8
 UENUM(BlueprintType)
 enum class SpeakerType : uint8
 {
-    INTERLOCUTOR = 0 UMETA(DisplayName = "Собеседник"),
+    STORYTELLER = 0 UMETA(DisplayName = "Рассказчик"),
     HERO = 1 UMETA(DisplayName = "Герой"),
-    STORYTELLER = 2 UMETA(DisplayName = "Рассказчик")
+    INTERLOCUTOR = 2 UMETA(DisplayName = "Собеседник")
 };
 
 UENUM(BlueprintType)
 enum class ActionWithCard : uint8
 {
-    TAKE_CARD = 0 UMETA(DisplayName = "Взять карту"),
-    KILL_CARD = 1 UMETA(DisplayName = "Разрушить карту"),
-    BACK_CARD = 2 UMETA(DisplayName = "Вернуть карту на стол"),
-    RESPEAK_CARD = 3 UMETA(DisplayName = "Говорить с картой снова")
+    TAKE_CARD = 0 UMETA(DisplayName = "Продолжить диалог"),
+    KILL_CARD = 1 UMETA(DisplayName = "Закончить диалог"),
 };
 
 UENUM(BlueprintType)
@@ -43,7 +41,21 @@ enum class CardEmotion : uint8
 USTRUCT(Blueprintable)
 struct FDialogUnit
 {
-    GENERATED_BODY()
+    GENERATED_USTRUCT_BODY()
+
+    FDialogUnit()
+    : speaker_type(SpeakerType::STORYTELLER)
+    , text_to_print()
+    , sound("")
+    , emotion(CardEmotion::EMOTION_DEFAULT)
+    {}
+
+    FDialogUnit(SpeakerType speaker_type, FText text_to_print, FString sound, CardEmotion emotion)
+    : speaker_type(speaker_type)
+    , text_to_print(text_to_print)
+    , sound(sound)
+    , emotion(emotion)
+    {}
 
     UPROPERTY(BlueprintReadWrite)
     SpeakerType speaker_type;
@@ -52,7 +64,7 @@ struct FDialogUnit
     FText text_to_print;
 
     UPROPERTY(BlueprintReadWrite)
-    USoundCue *sound;
+    FString sound;
 
     UPROPERTY(BlueprintReadWrite)
     CardEmotion emotion;
