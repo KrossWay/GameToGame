@@ -184,7 +184,8 @@ Script_p load_script_from_file(const FString script_filename)
 {
     ULOG(Log, "Script parsing has begun.");
 
-    const FString script_full_path = FPaths::ProjectContentDir().Append("Data").Append(script_filename);
+    
+    const FString script_full_path = FPaths::ProjectContentDir().Append(FPaths::Combine(DATA_FOLDER_NAME, script_filename));
     Script_p result_script = MakeShared<Script_t>();
 
     FString json_raw;
