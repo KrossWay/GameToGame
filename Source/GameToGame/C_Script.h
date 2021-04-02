@@ -4,7 +4,30 @@
 #include "Containers/Map.h"
 
 
-struct Condition_s;
+
+typedef TArray<FString> Actions_t;
+typedef TSharedPtr<Actions_t> Actions_p;
+// Last bunch of data and instructions in a script
+struct ScriptLeaf_s
+{
+    FString text;
+    FString speaker;
+    FString sound;
+    FString emotion;
+    Actions_p actions;
+};
+
+typedef TSharedPtr<ScriptLeaf_s> ScriptLeaf_p;
+typedef TArray<ScriptLeaf_p> Dialog_t;
+typedef TArray<ScriptLeaf_p> Answers_t;
+
+struct Condition_s
+{
+    Dialog_t dialog;
+    Answers_t answers;
+    Actions_p actions;
+};
+
 typedef TSharedPtr<Condition_s> Condition_p;
 
 typedef TMap<FString, Condition_p> CardObject_t;
