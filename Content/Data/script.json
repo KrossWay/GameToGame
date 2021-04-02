@@ -51,6 +51,7 @@
                 ],
                 "Actions": [
                     "Note a1_Agent_def",
+                    "If a1_Matiz_def a1_Final_ready",
                     "SpeakAgain"
                 ]
             },
@@ -101,6 +102,7 @@
                 ],
                 "Actions": [
                     "Note a1_Matiz_def",
+                    "If a1_Agent_def a1_Final_ready",
                     "SpeakAgain"
                 ]
             },
@@ -138,7 +140,7 @@
                     }
                 ]
             },
-            "a1_Agent_def,a1_Matiz_def": {
+            "a1_Final_ready": {
                 "Dialog": [
                     {
                         "Text": "Ну что, ты готов?",
