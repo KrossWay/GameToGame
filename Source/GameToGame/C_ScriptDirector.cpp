@@ -7,9 +7,9 @@ const FString SCRIPT_FILENAME("script.json");
 
 AC_ScriptDirector::AC_ScriptDirector()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
+    notes = { "Default" };
     script = load_script_from_file(SCRIPT_FILENAME);
 }
 
@@ -37,6 +37,7 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
             // Appropriate condition has been found
             const auto& condition = card->FindChecked(condition_key);
             check(condition.IsValid());
+
             for (const auto& dialog_leaf : condition->dialog)
             {
                 SpeakerType speaker_type = SpeakerType::STORYTELLER;
