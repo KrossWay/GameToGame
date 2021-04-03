@@ -33,7 +33,7 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     ConditionItem_p item_to_apply(nullptr);
     for (const auto& condition_item : *card)
     {
-        if (is_condition_proper(condition_item->conditions))
+        if (is_conditions_proper(condition_item->conditions))
         {
             item_to_apply = condition_item;
         }
@@ -127,7 +127,7 @@ void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, 
     ULOG_FFINISH;
 }
 
-bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
+bool AC_ScriptDirector::is_conditions_proper(const Conditions_t &conditions)
 {
     if (conditions.Contains("Default"))
         return true;
@@ -145,8 +145,9 @@ void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard
 {
     ULOG_FSTART;
 
-    static const FString ACTION_SPEAK_AGAIN("SpeakAgain");
     static const FString ACTION_NOTE("Note");
+    static const FString ACTION_IF("If");
+    static const FString ACTION_SPEAK_AGAIN("SpeakAgain");
     static const FString ACTION_NEXT_ACT("NextAct");
 
     if (card_action)
@@ -156,10 +157,26 @@ void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard
     {
         if (action.StartsWith(ACTION_NOTE))
         {
-            FString note = action.Right(ACTION_NOTE.Len());
+            FString note;
             action.Split(" ", nullptr, &note);
             notes.Add(note);
             ULOG(Log, "Storing new note: \"%s\"", *note);
+        }
+        else if (action.StartsWith(ACTION_IF))
+        {
+            FString statement;
+            action.Split(" ", nullptr, &statement);
+            FString condition, note;
+            statement.Split(" ", &condition, &note);
+            ULOG(Log, "Statement processing: \"%s\"", *action);
+
+            if (notes.Contains(condition))
+            {
+                notes.Add(note);
+                ULOG(Log, "Condition is satisfied. Storing new note: \"%s\"", *note);
+            }
+            else
+                ULOG(Log, "Condition is not satisfied: \"%s\"", *condition);
         }
         else if (action.StartsWith(ACTION_SPEAK_AGAIN))
         {
