@@ -340,8 +340,8 @@
                 ],
                 "Answers": [
                     { "Text": "Похоже на них.", "Actions":[ "Note a2_Pat_EATxTyZWTo_continue" ] }
-                    , { "Text": "Им лучше знать.", "Actions":[ "Note a2_Pat_Cwza2cpMZi_continue" ] } // Управлению лучше знать, что делать. Они отдают приказ, мы выполняем.
-                    , { "Text": "У них свои причины.", "Actions":[ "Note a2_Pat_kvuIuiEano_continue" ] } // Может, у них есть на то свои причины. Не знаю, посмотрим, что нас там будет ждать.
+                    , { "Text": "Им лучше знать.", "Actions":[ "Note a2_Pat_Cwza2cpMZi_continue" ] }
+                    , { "Text": "У них свои причины.", "Actions":[ "Note a2_Pat_kvuIuiEano_continue" ] }
                 ]
             }
             , {
@@ -376,6 +376,123 @@
                     { "Speaker": "Hero", "Text": "Черт его знает, разберемся с этим позже, мы почти прибыли, иди готовься к посадке."}
                 ],
                 "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_Cwza2cpMZi_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Управлению лучше знать, что делать. Они отдают приказ, мы выполняем."},
+                    { "Speaker": "Character", "Text": "Извините, капрал, мне не стоило так говорить."}
+                ],
+                "Answers": [
+                    { "Text": "Им виднее.", "Actions":[ "Note a2_Pat_4kKLVw8wB6_continue" ] }
+                    , { "Text": "Не сомневайся в Управлении.", "Actions":[ "Note a2_Pat_Vk3W1S0xwc_continue" ] }
+                    , { "Text": "Забыли.", "Actions":[ "Note a2_Pat_As9cWP7Oxu_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_4kKLVw8wB6_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Да, возможно я тоже не со всеми их решениями согласен, но нам не выиграть войну без субординации. Мы уже подплываем, иди готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_Vk3W1S0xwc_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Не стоит ставить под сомнение Управление, они прекрасно знают, что они делают. А теперь иди готовься к посадке, мы почти на месте."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_As9cWP7Oxu_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Да ничего, забыли. Мы почти на месте, иди готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_kvuIuiEano_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Может, у них есть на то свои причины. Не знаю, посмотрим, что нас там будет ждать."},
+                    { "Speaker": "Character", "Text": "Я только хочу сказать, что мне было бы проще, зная я о миссии все детали."}
+                ],
+                "Answers": [
+                    { "Text": "Видимо, так надо.", "Actions":[ "Note a2_Pat_q41osIK123_continue" ] }
+                    , { "Text": "", "Actions":[ "Note a2_Pat_VwyuUQSEsf_continue" ] }
+                    , { "Text": "", "Actions":[ "Note a2_Pat_cWlofBRqMa_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_q41osIK123_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Ну в Управлении видимо считают иначе. Может они вообще отправляют нас всех на верную смерть, никто не знает, что взбредет этим проклятым бюрократам в голову."},
+                    { "Speaker": "Hero", "Text": "А теперь иди готовься к посадке, мы почти на месте."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_VwyuUQSEsf_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Если мы будем сомневаться в решении Управления, ничего хорошего из этого не выйдет, пока наш долг - выполнять приказ."},
+                    { "Speaker": "Hero", "Text": "А теперь иди готовься к посадке, мы почти прибыли."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_cWlofBRqMa_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Ну а что мы можем тут поделать? Пока нужно придерживаться плана, а там уже дальше будет видно."},
+                    { "Speaker": "Hero", "Text": "Ладно, иди готовься к отправке, мы почти на месте."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+
+            , {
+                "Conditions":[ "a2_Pat_def_ans3" ],
+                "Dialog":[
+                    { "Speaker": "Character", "Text": "Извините, капрал, я думал, вы меня помните."},
+                    { "Speaker": "Character", "Text": "Мы воевали вместе в прошлом году, под Чечминцем. Вы тогда вели нас в бой, спасли много наших ребят, в том числе моего брата."}
+                ],
+                "Answers": [
+                    { "Text": "Да, припоминаю. Память уже не та.", "Actions":[ "Note a2_Pat_B9mIeO1W0c_continue" ] }
+                    , { "Text": "Да, припоминаю.", "Actions":[ "Note a2_Pat_a0Sb5vSfnt_continue" ] }
+                    , { "Text": "Всю войну не упомнишь.", "Actions":[ "Note a2_Pat_ZgsOhdHntE_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_B9mIeO1W0c_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Да, теперь я вспоминаю. Прости, память меня стала подводить последнее время. Не ожидал тебя тут встретить."}
+                ],
+                "Actions":[ "Note a2_Pat_def_ans2" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_a0Sb5vSfnt_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Паттерсон, верно? Да, что-то начинаю припоминать. Не ожидал тебя здесь встретить."}
+                ],
+                "Actions":[ "Note a2_Pat_def_ans2" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_ZgsOhdHntE_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Такие случаи не редки на войне, у меня было много боёв, трудно запомнить все детали."},
+                    { "Speaker": "Character", "Text": "Извините, капрал, я тогда пожалуй пойду."}
+                ],
+                "Actions":[ "Note a2_final_OrGZjwMPb8" ]
+            }
+            , {
+                "Conditions":[ "a2_final" ],
+                "Dialog":[
+                    { "Speaker": "Character", "Text": "Есть, Сэр!"}
+                ],
+                "Actions":[ "Note a2_final_OrGZjwMPb8" ]
+            }
+            , {
+                "Conditions":[ "a2_final_OrGZjwMPb8" ],
+                "Dialog":[
+                    { "Text": "Вы попали на подводную лодку."}
+                ]
             }
         ]
     }
