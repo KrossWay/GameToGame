@@ -40,6 +40,23 @@ enum class CardEmotion : uint8
 };
 
 USTRUCT(Blueprintable)
+struct FButtonText 
+{
+    GENERATED_USTRUCT_BODY()
+    
+    FButtonText() {}
+    FButtonText(FText text, bool print_required)
+        : text(text)
+        , print_required(print_required)
+    {}
+
+    UPROPERTY(BlueprintReadWrite)
+    FText text;
+    UPROPERTY(BlueprintReadWrite)
+    bool print_required;
+};
+
+USTRUCT(Blueprintable)
 struct FDialogUnit
 {
     GENERATED_USTRUCT_BODY()
