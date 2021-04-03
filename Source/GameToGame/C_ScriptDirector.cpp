@@ -21,21 +21,30 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
     // Maybe return some settings for the act
 }
 
-void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
+void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FButtonText>& answers)
 {
     ULOG(Log, "Process dialog started.");
     ULOG(Log, "Current act is \"%s\".", *current_act);
 
     const FString& card_name = interact_card->card_name;
     const auto& act = script->FindChecked(current_act);
-    const auto& card = act->FindChecked(card_name);
+    const auto* card_found = act->Find(card_name);
+    if (!card_found)
+    {
+        ULOG(Error, "Get out with this unknown card name! \"%s\"", *card_name);
+        return;
+    }
+    const auto& card_obj = *card_found;
 
     ConditionItem_p item_to_apply(nullptr);
-    for (const auto& condition_item : *card)
+    bool print_required = true;
+    for (const auto& condition_item : *card_obj)
     {
         if (is_conditions_proper(condition_item->conditions))
         {
             item_to_apply = condition_item;
+            for (const auto& condition : condition_item->conditions)
+                print_required &= !condition.EndsWith("_continue");
         }
     }
     
@@ -49,7 +58,7 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     }
 
     fill_dialog_output(item_to_apply->dialog, dialog);
-    process_output_answers(item_to_apply->answers, answers);
+    process_output_answers(item_to_apply->answers, answers, print_required);
     stored_condition_actions = MakeShared<Actions_t>(*item_to_apply->actions);
 
     ULOG(Log, "Process dialog finished.");
@@ -109,7 +118,7 @@ void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray
     ULOG_FFINISH;
 }
 
-void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, TArray<FText>& answers)
+void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, TArray<FButtonText>& answers, bool print_required)
 {
     ULOG_FSTART;
 
@@ -121,7 +130,7 @@ void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, 
         stored_answers_actions.Add(answer_leaf->actions);
 
         // TODO: add answers conditionally
-        answers.Add(text_to_print);
+        answers.Add(FButtonText(text_to_print, print_required));
     }
 
     ULOG_FFINISH;

@@ -20,7 +20,7 @@ public:
     void SwitchAct(const FString &act_name);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void ProcessDialog(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, TArray<FText> &answers);
+    void ProcessDialog(const AC_MasterCard *interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FButtonText>& answers);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialogResult(const int32 answer_idx, ActionWithCard &action_with_card);
@@ -34,7 +34,7 @@ private:
     TArray<Actions_p> stored_answers_actions;
 
     void fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog);
-    void process_output_answers(const Answers_t& answers_source, TArray<FText>& answers);
+    void process_output_answers(const Answers_t& answers_source, TArray<FButtonText>& answers, bool print_required);
     bool is_conditions_proper(const Conditions_t& conditions);
     void process_actions(const Actions_p& actions, ActionWithCard *card_action = nullptr);
 };
