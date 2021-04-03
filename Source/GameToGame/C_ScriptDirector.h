@@ -17,14 +17,15 @@ public:
     AC_ScriptDirector();
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void SwitchAct(const FString &act_name);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialog(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, TArray<FText> &Answers);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialogResult(const int32 answer_idx, ActionWithCard &action_with_card);
 
 private:
-    void read_story_from_file(const FString story_filename);
-
     Script_p script;
     FString current_act;
     TArray<FString> notes;

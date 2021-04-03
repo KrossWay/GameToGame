@@ -14,9 +14,10 @@ AC_ScriptDirector::AC_ScriptDirector()
     script = load_script_from_file(SCRIPT_FILENAME);
 }
 
-void AC_ScriptDirector::read_story_from_file(const FString story_filename)
+void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
 {
-
+    current_act = act_name;
+    // Maybe return some settings for the act
 }
 
 void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& Answers)
