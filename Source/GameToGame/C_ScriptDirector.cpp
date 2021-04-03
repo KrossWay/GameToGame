@@ -20,7 +20,39 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
     // Maybe return some settings for the act
 }
 
-void fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog)
+void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
+{
+    const FString& card_name = interact_card->card_name;
+
+    const auto& act = script->FindChecked(current_act);
+    const auto& card = act->FindChecked(card_name);
+
+    // TODO: Make conditions a list
+
+    TArray<FString> conditions_keys;
+    (*card).GetKeys(conditions_keys);
+    for (auto& condition_key : conditions_keys)
+    {
+        const auto cond_idx = notes.FindLast(condition_key);
+        if (cond_idx != INDEX_NONE)
+        {
+            // Appropriate condition has been found
+            const auto& condition = card->FindChecked(condition_key);
+            check(condition.IsValid());
+
+            fill_dialog_output(condition->dialog, dialog);
+            process_answers(condition->answers, answers);
+        }
+        else
+            ULOG(Error, "Undex for the condition \"%s\" not found.", *condition_key);
+    }
+}
+
+void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_idx, ActionWithCard& action_with_card)
+{
+}
+
+void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog)
 {
     for (const auto& dialog_leaf : dialog_source)
     {
@@ -51,44 +83,17 @@ void fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dial
     }
 }
 
-void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
+void AC_ScriptDirector::process_answers(const Answers_t& answers_source, TArray<FText>& answers)
 {
-    const FString& card_name = interact_card->card_name;
-
-    const auto& act = script->FindChecked(current_act);
-    const auto& card = act->FindChecked(card_name);
-
-    // TODO: Make conditions a list
-
-    TArray<FString> conditions_keys;
-    (*card).GetKeys(conditions_keys);
-    for (auto& condition_key : conditions_keys)
+    for (const auto& answer_leaf : answers_source)
     {
-        const auto cond_idx = notes.FindLast(condition_key);
-        if (cond_idx != INDEX_NONE)
-        {
-            // Appropriate condition has been found
-            const auto& condition = card->FindChecked(condition_key);
-            check(condition.IsValid());
+        FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
+        text_to_print = FText::FromString(answer_leaf->text);
 
-            fill_dialog_output(condition->dialog, dialog);
+        // TODO: store answer actions
 
-            for (const auto& answer_leaf : condition->answers)
-            {
-                FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
-                text_to_print = FText::FromString(answer_leaf->text);
-
-                // TODO: store answer actions
-
-                answers.Add(text_to_print);
-            }
-        }
-        else
-            ULOG(Error, "Undex for the condition \"%s\" not found.", *condition_key);
+        // TODO: add answers conditionally
+        answers.Add(text_to_print);
     }
-}
-
-void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_idx, ActionWithCard& action_with_card)
-{
 }
 
