@@ -20,10 +20,18 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
     // Maybe return some settings for the act
 }
 
-bool is_condition_proper(ConditionItem_p conditions)
+bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
 {
+    if (conditions.Contains("Default"))
+        return true;
 
-    return true;
+    for (const auto& cond : conditions)
+    {
+        if (notes.Contains(cond))
+            return true;
+    }
+
+    return false;
 }
 
 void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
@@ -33,23 +41,26 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     const auto& act = script->FindChecked(current_act);
     const auto& card = act->FindChecked(card_name);
 
-    // TODO: Make conditions a list
-
-    for (auto& condition_key : *card)
+    ConditionItem_p item_to_apply(nullptr);
+    for (const auto& condition_item : *card)
     {
-        //const auto cond_idx = notes.FindLast(condition_key);
-        //if (cond_idx != INDEX_NONE)
-        //{
-        //    // Appropriate condition has been found
-        //    const auto& condition = card->FindChecked(condition_key);
-        //    check(condition.IsValid());
-
-        //    fill_dialog_output(condition->dialog, dialog);
-        //    process_answers(condition->answers, answers);
-        //}
-        //else
-        //    ULOG(Error, "Undex for the condition \"%s\" not found.", *condition_key);
+        if (is_condition_proper(condition_item->conditions))
+        {
+            item_to_apply = condition_item;
+        }
     }
+    
+    if (!item_to_apply.IsValid())
+    {
+        ULOG(Error, "Unable to find proper condition for given card: \"%s\".", *card_name);
+        ULOG(Error, "Condition list:");
+        for (const auto& note : notes)
+            ULOG(Error, "%s", *note);
+        return;
+    }
+
+    fill_dialog_output(item_to_apply->dialog, dialog);
+    process_answers(item_to_apply->answers, answers);
 }
 
 void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_idx, ActionWithCard& action_with_card)

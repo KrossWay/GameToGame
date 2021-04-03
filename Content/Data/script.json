@@ -2,7 +2,7 @@
     "Act1": {
         "Intro": [
             {
-                "Condition":
+                "Conditions":
                 [
                     "Default"
                 ],
@@ -23,7 +23,7 @@
         ],
         "Агент управления": [
             {
-                "Condition":
+                "Conditions":
                 [
                     "Default"
                 ],
@@ -64,7 +64,7 @@
                 ]
             },
             {
-                "Condition":
+                "Conditions":
                 [
                     "a1_Agent_def_ans1"
                 ],
@@ -76,7 +76,7 @@
                 ]
             },
             {
-                "Condition":
+                "Conditions":
                 [
                     "a1_Agent_def_ans2"
                 ],
@@ -88,7 +88,7 @@
                 ]
             },
             {
-                "Condition":
+                "Conditions":
                 [
                     "a1_Agent_def_ans3"
                 ],
@@ -102,7 +102,7 @@
         ],
         "Мэттьюз": [
             {
-                "Condition":
+                "Conditions":
                 [
                     "Default"
                 ],
@@ -131,7 +131,7 @@
                 ]
             },
             {
-                "Condition":
+                "Conditions":
                 [
                     "a1_Matiz_def"
                 ],
@@ -145,7 +145,7 @@
         ],
         "Сержант": [
             {
-                "Condition":
+                "Conditions":
                 [
                     "Default"
                 ],
@@ -161,7 +161,7 @@
                 ]
             },
             {
-                "Condition":
+                "Conditions":
                 [
                     "a1_Agent_def"
                 ],
@@ -177,7 +177,7 @@
                 ]
             },
             {
-                "Condition":
+                "Conditions":
                 [
                     "a1_Final_ready"
                 ],
