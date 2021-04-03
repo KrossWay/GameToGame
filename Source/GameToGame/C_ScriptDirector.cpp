@@ -20,6 +20,12 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
     // Maybe return some settings for the act
 }
 
+bool is_condition_proper(ConditionItem_p conditions)
+{
+
+    return true;
+}
+
 void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
 {
     const FString& card_name = interact_card->card_name;
@@ -29,22 +35,20 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
 
     // TODO: Make conditions a list
 
-    TArray<FString> conditions_keys;
-    (*card).GetKeys(conditions_keys);
-    for (auto& condition_key : conditions_keys)
+    for (auto& condition_key : *card)
     {
-        const auto cond_idx = notes.FindLast(condition_key);
-        if (cond_idx != INDEX_NONE)
-        {
-            // Appropriate condition has been found
-            const auto& condition = card->FindChecked(condition_key);
-            check(condition.IsValid());
+        //const auto cond_idx = notes.FindLast(condition_key);
+        //if (cond_idx != INDEX_NONE)
+        //{
+        //    // Appropriate condition has been found
+        //    const auto& condition = card->FindChecked(condition_key);
+        //    check(condition.IsValid());
 
-            fill_dialog_output(condition->dialog, dialog);
-            process_answers(condition->answers, answers);
-        }
-        else
-            ULOG(Error, "Undex for the condition \"%s\" not found.", *condition_key);
+        //    fill_dialog_output(condition->dialog, dialog);
+        //    process_answers(condition->answers, answers);
+        //}
+        //else
+        //    ULOG(Error, "Undex for the condition \"%s\" not found.", *condition_key);
     }
 }
 
