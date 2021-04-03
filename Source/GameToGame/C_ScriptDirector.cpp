@@ -20,20 +20,6 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
     // Maybe return some settings for the act
 }
 
-bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
-{
-    if (conditions.Contains("Default"))
-        return true;
-
-    for (const auto& cond : conditions)
-    {
-        if (notes.Contains(cond))
-            return true;
-    }
-
-    return false;
-}
-
 void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
 {
     const FString& card_name = interact_card->card_name;
@@ -110,5 +96,19 @@ void AC_ScriptDirector::process_answers(const Answers_t& answers_source, TArray<
         // TODO: add answers conditionally
         answers.Add(text_to_print);
     }
+}
+
+bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
+{
+    if (conditions.Contains("Default"))
+        return true;
+
+    for (const auto& cond : conditions)
+    {
+        if (notes.Contains(cond))
+            return true;
+    }
+
+    return false;
 }
 
