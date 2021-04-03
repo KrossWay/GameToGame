@@ -18,19 +18,21 @@ struct ScriptLeaf_s
 };
 
 typedef TSharedPtr<ScriptLeaf_s> ScriptLeaf_p;
+typedef TArray<FString> Conditions_t;
 typedef TArray<ScriptLeaf_p> Dialog_t;
 typedef TArray<ScriptLeaf_p> Answers_t;
 
-struct Condition_s
+struct ConditionItem_s
 {
+    Conditions_t conditions;
     Dialog_t dialog;
     Answers_t answers;
     Actions_p actions;
 };
 
-typedef TSharedPtr<Condition_s> Condition_p;
+typedef TSharedPtr<ConditionItem_s> ConditionItem_p;
 
-typedef TMap<FString, Condition_p> CardObject_t;
+typedef TArray<ConditionItem_p> CardObject_t;
 typedef TSharedPtr<CardObject_t> CardObject_p;
 typedef TMap<FString, CardObject_p> Act_t;
 typedef TSharedPtr<Act_t> Act_p;

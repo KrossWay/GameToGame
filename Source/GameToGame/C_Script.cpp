@@ -2,6 +2,7 @@
 #include "common.h"
 
 
+static const FString CONDITION_KEY("Conditions");
 static const FString DIALOG_KEY("Dialog");
 static const FString ANSWERS_KEY("Answers");
 static const FString ACTIONS_KEY("Actions");
@@ -47,12 +48,30 @@ ScriptLeaf_p load_leaf(JsonObjectRef json_leaf)
     return leaf;
 }
 
-Condition_p load_condition(JsonObjectRef json_conditions)
+ConditionItem_p load_condition_item(JsonObjectRef json_conditions)
 {
     ULOG(Log, "Loading a Condition");
 
-    Condition_p condition = MakeShared<Condition_s>();
+    ConditionItem_p condition = MakeShared<ConditionItem_s>();
     const TArray<TSharedPtr<FJsonValue>>* json_values_array;
+
+    if (json_conditions->TryGetArrayField(CONDITION_KEY, json_values_array))
+    {
+        ULOG(Log, "Loading Conditions.");
+        check(json_values_array);
+        for (auto json_value : *json_values_array)
+        {
+            auto tmp_json_obj = json_value->AsString();
+            if (!tmp_json_obj.IsEmpty())
+                condition->conditions.Add(tmp_json_obj);
+            else
+                ULOG(Error, "Error while loading Conditions.");
+        }
+    }
+    else
+    {
+        ULOG(Error, "Unable to find Conditions (required) field in the given condition item.");
+    }
 
     if (json_conditions->TryGetArrayField(DIALOG_KEY, json_values_array))
     {
@@ -66,6 +85,10 @@ Condition_p load_condition(JsonObjectRef json_conditions)
             else
                 ULOG(Error, "Error while loading Dialog.");
         }
+    }
+    else
+    {
+        ULOG(Error, "Unable to find Dialog (required) field in the given condition item.");
     }
 
     if (json_conditions->TryGetArrayField(ANSWERS_KEY, json_values_array))
@@ -87,27 +110,23 @@ Condition_p load_condition(JsonObjectRef json_conditions)
     return condition;
 }
 
-CardObject_p load_card_object(JsonObjectRef json_card_object)
+CardObject_p load_card_object(TArray<TSharedPtr<FJsonValue>> &json_card_object)
 {
     ULOG(Log, "Loading a Card object");
 
-    CardObject_p card_objects = MakeShared<CardObject_t>();
+    CardObject_p card_object = MakeShared<CardObject_t>();
 
-    for (auto json_condition_val : json_card_object->Values)
+    for (auto json_value : json_card_object)
     {
-        ULOG(Log, "Key found: %s", *json_condition_val.Key);
-        auto tmp_json_obj = json_condition_val.Value->AsObject();
+        auto tmp_json_obj = json_value->AsObject();
         if (tmp_json_obj)
-        {
-            auto act = load_condition(tmp_json_obj.ToSharedRef());
-            card_objects->Add(json_condition_val.Key, act);
-        }
+            card_object->Add(load_condition_item(tmp_json_obj.ToSharedRef()));
         else
-            ULOG(Error, "Error while loading Card object.");
+            ULOG(Error, "Error while loading Dialog.");
     }
 
     ULOG(Log, "Loading a Card object finished");
-    return card_objects;
+    return card_object;
 }
 
 Act_p load_act(JsonObjectRef json_act)
@@ -119,11 +138,11 @@ Act_p load_act(JsonObjectRef json_act)
     for (auto json_card_val : json_act->Values)
     {
         ULOG(Log, "Key found: %s", *json_card_val.Key);
-        auto tmp_json_obj = json_card_val.Value->AsObject();
-        if (tmp_json_obj)
+        auto tmp_json_obj = json_card_val.Value->AsArray();
+        if (tmp_json_obj.Num() > 0)
         {
-            auto act = load_card_object(tmp_json_obj.ToSharedRef());
-            card_objects->Add(json_card_val.Key, act);
+            auto card_object = load_card_object(tmp_json_obj);
+            card_objects->Add(json_card_val.Key, card_object);
         }
         else
             ULOG(Error, "Error while loading Act.");
