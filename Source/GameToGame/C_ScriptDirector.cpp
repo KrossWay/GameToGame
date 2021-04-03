@@ -16,6 +16,7 @@ AC_ScriptDirector::AC_ScriptDirector()
 
 void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
 {
+    ULOG(Log, "Switching act to \"%s\".", *act_name);
     current_act = act_name;
     // Maybe return some settings for the act
 }
@@ -23,6 +24,7 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
 void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
 {
     ULOG(Log, "Process dialog started.");
+    ULOG(Log, "Current act is \"%s\".", *current_act);
 
     const FString& card_name = interact_card->card_name;
     const auto& act = script->FindChecked(current_act);
@@ -74,6 +76,8 @@ void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_id
 
 void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog)
 {
+    ULOG_FSTART;
+
     for (const auto& dialog_leaf : dialog_source)
     {
         SpeakerType speaker_type = SpeakerType::STORYTELLER;
@@ -101,10 +105,14 @@ void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray
 
         dialog.Add(FDialogUnit(speaker_type, text_to_print, sound, emotion));
     }
+
+    ULOG_FFINISH;
 }
 
 void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, TArray<FText>& answers)
 {
+    ULOG_FSTART;
+
     stored_answers_actions.Empty();
     for (const auto& answer_leaf : answers_source)
     {
@@ -115,6 +123,8 @@ void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, 
         // TODO: add answers conditionally
         answers.Add(text_to_print);
     }
+
+    ULOG_FFINISH;
 }
 
 bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
@@ -133,7 +143,8 @@ bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
 
 void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard *card_action)
 {
-    ULOG(Log, "Process actions started.");
+    ULOG_FSTART;
+
     static const FString ACTION_SPEAK_AGAIN("SpeakAgain");
     static const FString ACTION_NOTE("Note");
     static const FString ACTION_NEXT_ACT("NextAct");
@@ -166,6 +177,6 @@ void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard
             ULOG(Error, "Unknown action: \"%s\"", *action);
     }
 
-    ULOG(Log, "Process actions finished.");
+    ULOG_FFINISH;
 }
 
