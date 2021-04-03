@@ -24,8 +24,9 @@ enum class SpeakerType : uint8
 UENUM(BlueprintType)
 enum class ActionWithCard : uint8
 {
-    TAKE_CARD = 0 UMETA(DisplayName = "Продолжить диалог"),
-    KILL_CARD = 1 UMETA(DisplayName = "Закончить диалог"),
+    CARD_ACTION_END_DIALOG = 0 UMETA(DisplayName = "Закончить диалог"),
+    CARD_ACTION_CONTINUE_DIALOG = 1 UMETA(DisplayName = "Продолжить диалог"),
+    CARD_ACTION_NEXT_ACT = 2 UMETA(DisplayName = "Перейти в следующий акт"),
 };
 
 UENUM(BlueprintType)
