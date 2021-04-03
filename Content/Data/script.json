@@ -196,5 +196,187 @@
                 ]
             }
         ]
+    },
+    "Act2": {
+        "Intro": [
+            {
+                "Conditions":[ "Default" ],
+                "Dialog": [
+                    {
+                        "Text": "Разговор Джона с рядовым Паттерсоном.",
+                        "Sound": "Intro2Sound"
+                    },
+                    {
+                        "Text": "Капрал, как же я рад видеть вас в живых, сэр!.",
+                        "Speaker": "Character",
+                        "Sound": "Intro2Sound"
+                    }
+                ],
+                "Answers": [
+                    { "Text": "Паттерсон! Какой сюрприз, судьба вновь свела нас вместе.", "Actions": [ "Note a2_Pat_def_ans1" ] },
+                    { "Text": "Рядовой. Не ожидал тебя здесь встретить.", "Actions": [ "Note a2_Pat_def_ans2" ] },
+                    { "Text": "Мы знакомы?", "Actions": [ "Note a2_Pat_def_ans3" ] }
+                ],
+                "Actions": [ "Show Image1" ]
+            }
+
+            , {
+                "Conditions":[ "a2_Pat_def_ans1" ],
+                "Dialog":[
+                    { "Speaker": "Character", "Text": "Извините, но я не верю в судьбу, капрал. Как вы вообще здесь оказались?"}
+                ],
+                "Answers": [
+                    { "Text": "Это всё Управление", "Actions":[ "Note a2_Pat_ans1_ans1_continue" ] }
+                    , { "Text": "Страна отдает приказы, я их выполняю, все как всегда.", "Actions":[ "Note a2_Pat_ans2_ans2" ] }
+                    , { "Text": "Сам не знаю как так.", "Actions":[ "Note a2_Pat_ans2_ans3_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_ans1_ans1_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Как обычно это бывает, моего мнения никто и не спрашивал. Управление посчитало, что я буду ценнее здесь, плавая с какими-то учеными, исследуя ракушки и рыбью шелуху, вместо того, чтобы приносить настоящую пользу на поле боя."},
+                    { "Speaker": "Character", "Text": "Меня это не удивляет, Управление всегда почему-то считает себя самыми умными, хотя эти пиджаки из Штаба даже никогда оружие в руки не брали, как они могут знать, как победить в войне?"}
+                ],
+                "Answers": [
+                    { "Text": "Бездари.", "Actions":[ "Note a2_Pat_BTExCeChHX_continue" ] }
+                    , { "Text": "Им виднее.", "Actions":[ "Note a2_Pat_Dof7MAtuQA_continue" ] }
+                    , { "Text": "Поговорим позже.", "Actions":[ "Note a2_Pat_IjE25LK0tT_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_BTExCeChHX_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Они даже не знают, из какой части винтовки стрелять. Я считаю, что в Управлении должны быть настоящие военные, которые понимают поведение врага из своего личного опыта, а не из отчетов и справок."},
+                    { "Speaker": "Hero", "Text": "Кажется, мы приближаемся к лодке, иди готовься к отправке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_Dof7MAtuQA_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Может, они и в прям знают больше, чем мы. Откуда у солдата время на размышления? Пока будешь думать, получишь пулю в голову."},
+                    { "Speaker": "Hero", "Text": "Мы почти прибыли, отправляйся готовится к посадке!"}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_IjE25LK0tT_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Ладно, может позже об этом поговорим."},
+                    { "Speaker": "Hero", "Text": "Кажется, мы уже приближаемся, иди готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_ans2_ans2" ],
+                "Dialog":[
+                    { "Speaker": "Character", "Text": "Понимаю. Я все меньше начинаю верить в то, что эта война вообще когда-то кончится."}
+                ],
+                "Answers": [
+                    { "Text": "Всё в наших руках.", "Actions":[ "Note a2_Pat_FlIflzmmFu_continue" ] }
+                    , { "Text": "Дело рядового - выполнять приказы.", "Actions":[ "Note a2_Pat_5tH4pPTSWP_continue" ] }
+                    , { "Text": "Не теряй надежду.", "Actions":[ "Note a2_Pat_Nf8skrfmzS_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_FlIflzmmFu_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Я думаю, что все в наших руках. Мы приближаемся к лодке, готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_5tH4pPTSWP_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Верь Управлению и выполняй приказы, большего от рядового не нужно. Мы почти на месте, отправляйся готовится к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_Nf8skrfmzS_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Рано или поздно все кончится, главное не терять надежду. Ладно, мы почти на месте, иди готовиться к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_ans2_ans3_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Скажу честно, я и сам представления не имею, как я тут очутился, последние несколько месяцев - как в тумане, мыслить здраво становится все труднее."},
+                    { "Speaker": "Character", "Text": "Быть может, как раз эта экспедиция вам поможет привести свои мысли в порядок."}
+                ],
+                "Answers": [
+                    { "Text": "Было бы хорошо, что бы она вообще несла хоть какую-то пользу.", "Actions":[ "Note a2_Pat_PJi8ZFD09R_continue" ] }
+                    , { "Text": "Посмотрим что из этого выйдет.", "Actions":[ "Note a2_Pat_MOHDjkSo65_continue" ] }
+                    , { "Text": "Не уверен, что мне уже хоть что-то поможет.", "Actions":[ "Note a2_Pat_BlVG8F1nCh_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_PJi8ZFD09R_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Было бы хорошо, что бы она вообще несла хоть какую-то пользу. Ладно, мы подплываем, готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_MOHDjkSo65_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Что ж, посмотрим, вряд ли Управление отправило нас сюда просто так. А теперь давай, готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_BlVG8F1nCh_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Не уверен, что мне уже хоть что-то поможет. Мы подплываем, иди готовится к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+
+            , {
+                "Conditions":[ "a2_Pat_def_ans2" ],
+                "Dialog":[
+                    { "Speaker": "Character", "Text": "Управление отправило меня сюда, чтобы сопроводить экспедицию ученых, даже не сказали, куда и зачем. Ну конечно, с какой стати им посвящать какого-то рядового в свои грандиозные планы по спасению человечества."}
+                ],
+                "Answers": [
+                    { "Text": "Похоже на них.", "Actions":[ "Note a2_Pat_EATxTyZWTo_continue" ] }
+                    , { "Text": "Им лучше знать.", "Actions":[ "Note a2_Pat_Cwza2cpMZi_continue" ] } // Управлению лучше знать, что делать. Они отдают приказ, мы выполняем.
+                    , { "Text": "У них свои причины.", "Actions":[ "Note a2_Pat_kvuIuiEano_continue" ] } // Может, у них есть на то свои причины. Не знаю, посмотрим, что нас там будет ждать.
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_EATxTyZWTo_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Что ж, это очень похоже на них. Они даже мне ничего толком не объяснили."},
+                    { "Speaker": "Character", "Text": "Интересно, хоть кто-то в курсе, какая вообще у нас цель здесь, кроме умников из Управления?"}
+                ],
+                "Answers": [
+                    { "Text": "Похоже, они сами не знаю что делать.", "Actions":[ "Note a2_Pat_PGhkqzjUsL_continue" ] }
+                    , { "Text": "Им виднее.", "Actions":[ "Note a2_Pat_C65veiukG6_continue" ] }
+                    , { "Text": "Поговорим позже.", "Actions":[ "Note a2_Pat_hXT1hhxUTP_continue" ] }
+                ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_PGhkqzjUsL_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Последнее время у меня вообще складывается впечатление, что они сами не знают, что делать дальше. Ладно, мы почти на месте, иди готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_C65veiukG6_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Если они не раскрывают все карты, значит так и нужно, нам не стоит задавать лишних вопросов. Иди готовься к посадке на лодку, рядовой, мы почти на месте!"}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+            , {
+                "Conditions":[ "a2_Pat_hXT1hhxUTP_continue" ],
+                "Dialog":[
+                    { "Speaker": "Hero", "Text": "Черт его знает, разберемся с этим позже, мы почти прибыли, иди готовься к посадке."}
+                ],
+                "Actions":[ "Note a2_final" ]
+            }
+        ]
     }
 }
