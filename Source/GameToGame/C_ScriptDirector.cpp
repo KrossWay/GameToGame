@@ -10,6 +10,7 @@ AC_ScriptDirector::AC_ScriptDirector()
     PrimaryActorTick.bCanEverTick = true;
 
     notes = { "Default" };
+    current_act = "Act1";
     script = load_script_from_file(SCRIPT_FILENAME);
 }
 
@@ -59,7 +60,9 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
                     {"Wondering", CardEmotion::EMOTION_WONDERING},
                     {"None", CardEmotion::EMOTION_NONE}
                 };
-                emotion = emotions_map.FindChecked(dialog_leaf->emotion);
+                const auto* found_emotion = emotions_map.Find(dialog_leaf->emotion);
+                if (found_emotion)
+                    emotion = *found_emotion;
 
                 dialog.Add(FDialogUnit(speaker_type, text_to_print, sound, emotion));
             }
