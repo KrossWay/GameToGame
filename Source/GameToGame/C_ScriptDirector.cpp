@@ -37,14 +37,12 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     const auto& card_obj = *card_found;
 
     ConditionItem_p item_to_apply(nullptr);
-    bool print_required = true;
+    // TODO: reverse for loop
     for (const auto& condition_item : *card_obj)
     {
         if (is_conditions_proper(condition_item->conditions))
         {
             item_to_apply = condition_item;
-            for (const auto& condition : condition_item->conditions)
-                print_required &= !condition.EndsWith("_continue");
         }
     }
     
@@ -58,7 +56,7 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     }
 
     fill_dialog_output(item_to_apply->dialog, dialog);
-    process_output_answers(item_to_apply->answers, answers, print_required);
+    process_output_answers(item_to_apply->answers, answers);
     stored_condition_actions = MakeShared<Actions_t>(*item_to_apply->actions);
 
     ULOG(Log, "Process dialog finished.");
@@ -118,19 +116,21 @@ void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray
     ULOG_FFINISH;
 }
 
-void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, TArray<FButtonText>& answers, bool print_required)
+void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, TArray<FButtonText>& answers)
 {
     ULOG_FSTART;
 
     stored_answers_actions.Empty();
     for (const auto& answer_leaf : answers_source)
     {
+        FText text_to_show = FText::FromString("I'm wrong string. Seems like you've found the crown.");
         FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
-        text_to_print = FText::FromString(answer_leaf->text);
+        text_to_show = FText::FromString(answer_leaf->text);
+        text_to_show = FText::FromString(answer_leaf->full_text);
         stored_answers_actions.Add(answer_leaf->actions);
 
         // TODO: add answers conditionally
-        answers.Add(FButtonText(text_to_print, print_required));
+        answers.Add(FButtonText(text_to_show, text_to_print));
     }
 
     ULOG_FFINISH;

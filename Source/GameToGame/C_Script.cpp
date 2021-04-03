@@ -8,6 +8,7 @@ static const FString ANSWERS_KEY("Answers");
 static const FString ACTIONS_KEY("Actions");
 
 static const FString LEAF_TEXT_KEY("Text");
+static const FString LEAF_FULL_TEXT_KEY("FullText");
 static const FString LEAF_SPEAKER_KEY("Speaker");
 static const FString LEAF_SOUND_KEY("Sound");
 static const FString LEAF_EMOTION_KEY("Emotion");
@@ -39,6 +40,9 @@ ScriptLeaf_p load_leaf(JsonObjectRef json_leaf)
     auto json_leaf_dict = json_leaf->Values;
 
     json_leaf->TryGetStringField(LEAF_TEXT_KEY, leaf->text);
+    json_leaf->TryGetStringField(LEAF_FULL_TEXT_KEY, leaf->text);
+    if (leaf->full_text.IsEmpty())
+        leaf->full_text = leaf->text;
     json_leaf->TryGetStringField(LEAF_SPEAKER_KEY, leaf->speaker);
     json_leaf->TryGetStringField(LEAF_SOUND_KEY, leaf->sound);
     json_leaf->TryGetStringField(LEAF_EMOTION_KEY, leaf->emotion);

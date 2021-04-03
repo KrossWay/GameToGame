@@ -34,7 +34,7 @@ private:
     TArray<Actions_p> stored_answers_actions;
 
     void fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog);
-    void process_output_answers(const Answers_t& answers_source, TArray<FButtonText>& answers, bool print_required);
+    void process_output_answers(const Answers_t& answers_source, TArray<FButtonText>& answers);
     bool is_conditions_proper(const Conditions_t& conditions);
     void process_actions(const Actions_p& actions, ActionWithCard *card_action = nullptr);
 };

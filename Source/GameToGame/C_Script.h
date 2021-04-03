@@ -11,6 +11,7 @@ typedef TSharedPtr<Actions_t> Actions_p;
 struct ScriptLeaf_s
 {
     FString text;
+    FString full_text;
     FString speaker;
     FString sound;
     FString emotion;
