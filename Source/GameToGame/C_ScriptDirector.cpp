@@ -20,7 +20,38 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
     // Maybe return some settings for the act
 }
 
-void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& Answers)
+void fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog)
+{
+    for (const auto& dialog_leaf : dialog_source)
+    {
+        SpeakerType speaker_type = SpeakerType::STORYTELLER;
+        FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
+        FString sound = "";
+        CardEmotion emotion = CardEmotion::EMOTION_DEFAULT;
+
+        if ("Character" == dialog_leaf->speaker)
+            speaker_type = SpeakerType::INTERLOCUTOR;
+        else if ("Hero" == dialog_leaf->speaker)
+            speaker_type = SpeakerType::HERO;
+
+        text_to_print = FText::FromString(dialog_leaf->text);
+        sound = dialog_leaf->sound;
+
+        static const TMap<FString, CardEmotion> emotions_map = {
+            {"Happy", CardEmotion::EMOTION_HAPPY},
+            {"Angry", CardEmotion::EMOTION_ANGRY},
+            {"Wondering", CardEmotion::EMOTION_WONDERING},
+            {"None", CardEmotion::EMOTION_NONE}
+        };
+        const auto* found_emotion = emotions_map.Find(dialog_leaf->emotion);
+        if (found_emotion)
+            emotion = *found_emotion;
+
+        dialog.Add(FDialogUnit(speaker_type, text_to_print, sound, emotion));
+    }
+}
+
+void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
 {
     const FString& card_name = interact_card->card_name;
 
@@ -40,32 +71,16 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
             const auto& condition = card->FindChecked(condition_key);
             check(condition.IsValid());
 
-            for (const auto& dialog_leaf : condition->dialog)
+            fill_dialog_output(condition->dialog, dialog);
+
+            for (const auto& answer_leaf : condition->answers)
             {
-                SpeakerType speaker_type = SpeakerType::STORYTELLER;
                 FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
-                FString sound = "";
-                CardEmotion emotion = CardEmotion::EMOTION_DEFAULT;
+                text_to_print = FText::FromString(answer_leaf->text);
 
-                if ("Character" == dialog_leaf->speaker)
-                    speaker_type = SpeakerType::INTERLOCUTOR;
-                else if ("Hero" == dialog_leaf->speaker)
-                    speaker_type = SpeakerType::HERO;
+                // TODO: store answer actions
 
-                text_to_print = FText::FromString(dialog_leaf->text);
-                sound = dialog_leaf->sound;
-
-                static const TMap<FString, CardEmotion> emotions_map = {
-                    {"Happy", CardEmotion::EMOTION_HAPPY},
-                    {"Angry", CardEmotion::EMOTION_ANGRY},
-                    {"Wondering", CardEmotion::EMOTION_WONDERING},
-                    {"None", CardEmotion::EMOTION_NONE}
-                };
-                const auto* found_emotion = emotions_map.Find(dialog_leaf->emotion);
-                if (found_emotion)
-                    emotion = *found_emotion;
-
-                dialog.Add(FDialogUnit(speaker_type, text_to_print, sound, emotion));
+                answers.Add(text_to_print);
             }
         }
         else
