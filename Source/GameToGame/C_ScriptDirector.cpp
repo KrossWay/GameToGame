@@ -48,6 +48,7 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
 
     fill_dialog_output(item_to_apply->dialog, dialog);
     process_output_answers(item_to_apply->answers, answers);
+    stored_condition_actions = MakeShared<Actions_t>(*item_to_apply->actions);
 
     ULOG(Log, "Process dialog finished.");
 }
@@ -58,10 +59,15 @@ void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_id
 
     if (stored_answers_actions.Num())
     {
-        process_actions(stored_answers_actions[answer_idx]);
+        if(stored_condition_actions)
+            stored_condition_actions->Append(*stored_answers_actions[answer_idx]);
+        else
+            ULOG(Error, "Are you insane? Call the ProcessDialog() first.");
     }
     else
-        ULOG(Log, "Nothing to process.");
+        ULOG(Log, "Nothing to process on the answer.");
+
+    process_actions(stored_condition_actions, &action_with_card);
 
     ULOG(Log, "Process dialog result finished.");
 }
@@ -125,8 +131,41 @@ bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
     return false;
 }
 
-void AC_ScriptDirector::process_actions(const Actions_p& Actions)
+void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard *card_action)
 {
-    throw std::logic_error("The method or operation is not implemented.");
+    ULOG(Log, "Process actions started.");
+    static const FString ACTION_SPEAK_AGAIN("SpeakAgain");
+    static const FString ACTION_NOTE("Note");
+    static const FString ACTION_NEXT_ACT("NextAct");
+
+    if (card_action)
+        *card_action = ActionWithCard::CARD_ACTION_END_DIALOG;
+
+    for (const auto& action : *actions)
+    {
+        if (action.StartsWith(ACTION_NOTE))
+        {
+            FString note = action.Right(ACTION_NOTE.Len());
+            action.Split(" ", nullptr, &note);
+            notes.Add(note);
+            ULOG(Log, "Storing new note: \"%s\"", *note);
+        }
+        else if (action.StartsWith(ACTION_SPEAK_AGAIN))
+        {
+            if (card_action)
+                *card_action = ActionWithCard::CARD_ACTION_CONTINUE_DIALOG;
+            ULOG(Log, "Speak again action with card: \"%s\"", *action);
+        }
+        else if (action.StartsWith(ACTION_NEXT_ACT))
+        {
+            if (card_action)
+                *card_action = ActionWithCard::CARD_ACTION_NEXT_ACT;
+            ULOG(Log, "Next act moving proposing");
+        }
+        else
+            ULOG(Error, "Unknown action: \"%s\"", *action);
+    }
+
+    ULOG(Log, "Process actions finished.");
 }
 
