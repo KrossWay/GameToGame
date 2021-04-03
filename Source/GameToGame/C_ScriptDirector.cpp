@@ -22,8 +22,9 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
 
 void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FText>& answers)
 {
-    const FString& card_name = interact_card->card_name;
+    ULOG(Log, "Process dialog started.");
 
+    const FString& card_name = interact_card->card_name;
     const auto& act = script->FindChecked(current_act);
     const auto& card = act->FindChecked(card_name);
 
@@ -46,11 +47,23 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     }
 
     fill_dialog_output(item_to_apply->dialog, dialog);
-    process_answers(item_to_apply->answers, answers);
+    process_output_answers(item_to_apply->answers, answers);
+
+    ULOG(Log, "Process dialog finished.");
 }
 
 void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_idx, ActionWithCard& action_with_card)
 {
+    ULOG(Log, "Process dialog result started.");
+
+    if (stored_answers_actions.Num())
+    {
+        process_actions(stored_answers_actions[answer_idx]);
+    }
+    else
+        ULOG(Log, "Nothing to process.");
+
+    ULOG(Log, "Process dialog result finished.");
 }
 
 void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog)
@@ -84,14 +97,14 @@ void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray
     }
 }
 
-void AC_ScriptDirector::process_answers(const Answers_t& answers_source, TArray<FText>& answers)
+void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, TArray<FText>& answers)
 {
+    stored_answers_actions.Empty();
     for (const auto& answer_leaf : answers_source)
     {
         FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
         text_to_print = FText::FromString(answer_leaf->text);
-
-        // TODO: store answer actions
+        stored_answers_actions.Add(answer_leaf->actions);
 
         // TODO: add answers conditionally
         answers.Add(text_to_print);
@@ -110,5 +123,10 @@ bool AC_ScriptDirector::is_condition_proper(const Conditions_t &conditions)
     }
 
     return false;
+}
+
+void AC_ScriptDirector::process_actions(const Actions_p& Actions)
+{
+    throw std::logic_error("The method or operation is not implemented.");
 }
 

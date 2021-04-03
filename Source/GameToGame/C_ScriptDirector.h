@@ -29,8 +29,10 @@ private:
     Script_p script;
     FString current_act;
     TArray<FString> notes;
+    TArray<Actions_p> stored_answers_actions;
 
     void fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog);
-    void process_answers(const Answers_t& answers_source, TArray<FText>& answers);
+    void process_output_answers(const Answers_t& answers_source, TArray<FText>& answers);
     bool is_condition_proper(const Conditions_t& conditions);
+    void process_actions(const Actions_p& actions);
 };
