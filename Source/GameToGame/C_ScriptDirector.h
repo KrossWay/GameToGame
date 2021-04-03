@@ -20,7 +20,7 @@ public:
     void SwitchAct(const FString &act_name);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void ProcessDialog(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, TArray<FText> &Answers);
+    void ProcessDialog(const AC_MasterCard *interact_card, CardType &card_type, TArray<FDialogUnit> &dialog, TArray<FText> &answers);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialogResult(const int32 answer_idx, ActionWithCard &action_with_card);
