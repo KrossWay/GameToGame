@@ -562,7 +562,12 @@
                 "Dialog":[
                     { "Speaker": "Hero", "Text": "Красота..."}
                 ],
-                "Actions":[ "Note 8b14436427b8", "If detail_done_84ee35751733 waited_wKTG8e1bCg", "If 8b14436427b8 v6wwU7t2ne", "If v6wwU7t2ne uCRjgJPtOo"]
+                "Actions":[ 
+                    "If v6wwU7t2ne uCRjgJPtOo",
+                    "If 8b14436427b8 v6wwU7t2ne",
+                    "If detail_done_84ee35751733 waited_wKTG8e1bCg",
+                    "Note 8b14436427b8"
+                ]
             }
             , {
                 "Conditions":[ "uCRjgJPtOo" ],
