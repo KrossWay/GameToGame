@@ -113,7 +113,8 @@ void AC_ScriptDirector::fill_dialog_output(const Dialog_t& dialog_source, TArray
         else if ("Hero" == dialog_leaf->speaker)
             speaker_type = SpeakerType::HERO;
 
-        text_to_print = FText::FromString(dialog_leaf->text);
+        const FString prefix = (speaker_type != SpeakerType::STORYTELLER) ? "- " : "";
+        text_to_print = FText::FromString(prefix + dialog_leaf->text);
         sound = dialog_leaf->sound;
 
         static const TMap<FString, CardEmotion> emotions_map = {
@@ -142,7 +143,7 @@ void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, 
         FText text_to_show = FText::FromString("I'm wrong string. Seems like you've found the crown.");
         FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
         text_to_show = FText::FromString(answer_leaf->text);
-        text_to_print = FText::FromString(answer_leaf->full_text);
+        text_to_print = FText::FromString("- " + answer_leaf->full_text);
         stored_answers_actions.Add(answer_leaf->actions);
 
         // TODO: add answers conditionally
