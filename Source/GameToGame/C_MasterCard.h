@@ -16,7 +16,7 @@ public:
     // Sets default values for this actor's properties
     AC_MasterCard();
 
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString card_name;
 
 protected:

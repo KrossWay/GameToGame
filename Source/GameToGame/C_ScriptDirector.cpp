@@ -26,10 +26,20 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     ULOG(Log, "Process dialog started.");
     ULOG(Log, "Current act is \"%s\".", *current_act);
 
+    if (!interact_card)
+    {
+        ULOG(Error, "OMG. No card has been passed. Attention!");
+        return;
+    }
+
     const FString& card_name = interact_card->card_name;
     const auto& act = script->FindChecked(current_act);
     const auto* card_found = act->Find(card_name);
-    if (!card_found)
+    if (card_found)
+    {
+        ULOG(Log, "Processing card with card name: \"%s\"", *card_name);
+    }
+    else
     {
         ULOG(Error, "Get out with this unknown card name! \"%s\"", *card_name);
         return;
