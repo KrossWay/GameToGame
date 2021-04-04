@@ -23,7 +23,7 @@ public:
     void ProcessDialog(const AC_MasterCard *interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FButtonText>& answers);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void ProcessDialogResult(const int32 answer_idx, ActionWithCard &action_with_card);
+    void ProcessDialogResult(const int32 answer_idx, ActionWithCard &action_with_card, FString &new_card_name);
 
 private:
     Script_p script;
@@ -36,5 +36,5 @@ private:
     void fill_dialog_output(const Dialog_t& dialog_source, TArray<FDialogUnit>& dialog);
     void process_output_answers(const Answers_t& answers_source, TArray<FButtonText>& answers);
     bool is_conditions_proper(const Conditions_t& conditions);
-    void process_actions(const Actions_p& actions, ActionWithCard *card_action = nullptr);
+    void process_actions(const Actions_p& actions, ActionWithCard *card_action = nullptr, FString *card_to_replace = nullptr);
 };

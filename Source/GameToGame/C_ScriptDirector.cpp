@@ -72,7 +72,7 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     ULOG(Log, "Process dialog finished.");
 }
 
-void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_idx, ActionWithCard& action_with_card)
+void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_idx, ActionWithCard& action_with_card, FString &new_card_name)
 {
     ULOG(Log, "Process dialog result started.");
 
@@ -86,7 +86,7 @@ void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_id
     else
         ULOG(Log, "Nothing to process on the answer.");
 
-    process_actions(stored_condition_actions, &action_with_card);
+    process_actions(stored_condition_actions, &action_with_card, &new_card_name);
 
     ULOG(Log, "Process dialog result finished.");
 }
@@ -160,7 +160,7 @@ bool AC_ScriptDirector::is_conditions_proper(const Conditions_t &conditions)
     return false;
 }
 
-void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard *card_action)
+void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard *card_action, FString *new_card_name)
 {
     ULOG_FSTART;
 
@@ -168,9 +168,12 @@ void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard
     static const FString ACTION_IF("If");
     static const FString ACTION_SPEAK_AGAIN("SpeakAgain");
     static const FString ACTION_NEXT_ACT("NextAct");
+    static const FString ACTION_SWITCH_CARD("SwitchCard");
 
     if (card_action)
         *card_action = ActionWithCard::CARD_ACTION_END_DIALOG;
+    if (new_card_name)
+        *new_card_name = "";
 
     for (const auto& action : *actions)
     {
@@ -206,8 +209,16 @@ void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard
         else if (action.StartsWith(ACTION_NEXT_ACT))
         {
             if (card_action)
-                *card_action = ActionWithCard::CARD_ACTION_NEXT_ACT;
-            ULOG(Log, "Next act moving proposing");
+                *card_action = ActionWithCard::CARD_ACTION_CONTINUE_DIALOG;
+            ULOG(Log, "Speak again action with card: \"%s\"", *action);
+        }
+        else if (action.StartsWith(ACTION_SWITCH_CARD))
+        {
+            FString new_card_name_statement;
+            action.Split(" ", nullptr, &new_card_name_statement);
+            if (new_card_name)
+                *new_card_name = new_card_name_statement;
+            ULOG(Log, "Propose to swap card with new one: \"%s\"", **new_card_name);
         }
         else
             ULOG(Error, "Unknown action: \"%s\"", *action);
