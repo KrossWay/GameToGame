@@ -45,15 +45,15 @@ struct FButtonText
     GENERATED_USTRUCT_BODY()
     
     FButtonText() {}
-    FButtonText(FText text, bool print_required)
+    FButtonText(FText text, FText full_text)
         : text(text)
-        , print_required(print_required)
+        , full_text(full_text)
     {}
 
     UPROPERTY(BlueprintReadWrite)
     FText text;
     UPROPERTY(BlueprintReadWrite)
-    bool print_required;
+    FText full_text;
 };
 
 USTRUCT(Blueprintable)
