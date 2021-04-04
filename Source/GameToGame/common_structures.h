@@ -54,6 +54,14 @@ struct FButtonText
     FText text;
     UPROPERTY(BlueprintReadWrite)
     FText full_text;
+
+    FString to_string() const
+    {
+        FString result("Button text:\n");
+        result.Append("Short: " + text.ToString() + "\n");
+        result.Append("Full: " + full_text.ToString() + "\n");
+        return result;
+    }
 };
 
 USTRUCT(Blueprintable)
@@ -86,5 +94,14 @@ struct FDialogUnit
 
     UPROPERTY(BlueprintReadWrite)
     CardEmotion emotion;
+
+    FString to_string() const
+    {
+        FString result("Dialog unit:\n");
+        result.Append("Speaker type: " + FString::FromInt((int)speaker_type) + "\n");
+        result.Append("Text to print: " + text_to_print.ToString() + "\n");
+        //result.Append("Emotion: " + FString::FromInt((int)emotion) + "\n");
+        return result;
+    }
 };
 

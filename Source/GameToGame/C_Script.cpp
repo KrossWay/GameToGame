@@ -40,7 +40,7 @@ ScriptLeaf_p load_leaf(JsonObjectRef json_leaf)
     auto json_leaf_dict = json_leaf->Values;
 
     json_leaf->TryGetStringField(LEAF_TEXT_KEY, leaf->text);
-    json_leaf->TryGetStringField(LEAF_FULL_TEXT_KEY, leaf->text);
+    json_leaf->TryGetStringField(LEAF_FULL_TEXT_KEY, leaf->full_text);
     if (leaf->full_text.IsEmpty())
         leaf->full_text = leaf->text;
     json_leaf->TryGetStringField(LEAF_SPEAKER_KEY, leaf->speaker);
