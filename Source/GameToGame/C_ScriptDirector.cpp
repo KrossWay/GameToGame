@@ -136,7 +136,7 @@ void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, 
         FText text_to_show = FText::FromString("I'm wrong string. Seems like you've found the crown.");
         FText text_to_print = FText::FromString("I'm wrong string. Seems like you've found the crown.");
         text_to_show = FText::FromString(answer_leaf->text);
-        text_to_show = FText::FromString(answer_leaf->full_text);
+        text_to_print = FText::FromString(answer_leaf->full_text);
         stored_answers_actions.Add(answer_leaf->actions);
 
         // TODO: add answers conditionally
