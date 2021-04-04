@@ -24,7 +24,6 @@ void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
 void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FButtonText>& answers)
 {
     ULOG(Log, "Process dialog started.");
-    ULOG(Log, "Current act is \"%s\".", *current_act);
 
     if (!interact_card)
     {
@@ -69,17 +68,24 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     process_output_answers(item_to_apply->answers, answers);
     stored_condition_actions = MakeShared<Actions_t>(*item_to_apply->actions);
 
+    for (const auto& du : dialog)
+        ULOG(Log, "%s", *du.to_string());
+    for (const auto& ans : answers)
+        ULOG(Log, "%s", *ans.to_string());
+
+
     ULOG(Log, "Process dialog finished.");
 }
 
 void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_idx, ActionWithCard& action_with_card, FString &new_card_name)
 {
     ULOG(Log, "Process dialog result started.");
+    ULOG(Log, "Answer index: %d.", answer_idx);
 
     if (stored_answers_actions.Num())
     {
         if(stored_condition_actions)
-            stored_condition_actions->Append(*stored_answers_actions[answer_idx]);
+            stored_condition_actions->Insert(*stored_answers_actions[answer_idx], 0);
         else
             ULOG(Error, "Are you insane? Call the ProcessDialog() first.");
     }
@@ -163,6 +169,11 @@ bool AC_ScriptDirector::is_conditions_proper(const Conditions_t &conditions)
 void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard *card_action, FString *new_card_name)
 {
     ULOG_FSTART;
+    ULOG(Log, "Actions to process:\n");
+    for (const auto& ac : *actions)
+    {
+        ULOG(Log, "%s\n", *ac);
+    }
 
     static const FString ACTION_NOTE("Note");
     static const FString ACTION_IF("If");
