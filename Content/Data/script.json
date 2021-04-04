@@ -29,17 +29,26 @@
                 "Dialog": [
                     { "Speaker": "Character", "FullText": "Извини, Джон, но это информация строго классифицирована и у тебя нет к ней доступа. А теперь давай заканчивать, времени совсем в обрез." }
                 ]
+                , "Actions":[ "a1_Agent_def_end" ]
             },
             {
                 "Conditions": [ "a1_Agent_def_ans2" ],
                 "Dialog": [
                     { "Speaker": "Character", "Text": "Мы не знаем, в какой момент на нас могут напасть. Ты здесь нужен для сопровождения, проследить, чтобы операция прошла гладко. А теперь давай заканчивать, времени почти не осталось." }
                 ]
+                , "Actions":[ "a1_Agent_def_end" ]
             },
             {
                 "Conditions": [ "a1_Agent_def_ans3" ],
                 "Dialog": [
                     { "Speaker": "Character", "Text": "Превосходно, очень рады это слышать. Поэтому мы тебя и выбрали. А теперь давай заканчивать, времени совсем мало." }
+                ]
+                , "Actions":[ "a1_Agent_def_end" ]
+            }
+            , {
+                "Conditions":[ "a1_Agent_def_end" ],
+                "Dialog":[
+                    { "Speaker": "Character", "Text": "Буллок, ты ещё здесь?"}
                 ]
             }
         ],
@@ -413,7 +422,7 @@
                 "Actions":[ "Note becdea34d367" ]
             }
             , {
-                "Conditions":[ "becdea34d367" ],
+                "Conditions":[ "aqua_end_01682a8bb5a9" ],
                 "Dialog":[
                     { "Speaker": "Character", "Text": "Капитан ждет вас, Капрал, можете входить."}
                 ],
