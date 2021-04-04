@@ -209,8 +209,8 @@ void AC_ScriptDirector::process_actions(const Actions_p& actions, ActionWithCard
         else if (action.StartsWith(ACTION_NEXT_ACT))
         {
             if (card_action)
-                *card_action = ActionWithCard::CARD_ACTION_CONTINUE_DIALOG;
-            ULOG(Log, "Speak again action with card: \"%s\"", *action);
+                *card_action = ActionWithCard::CARD_ACTION_NEXT_ACT;
+            ULOG(Log, "Next act moving proposing");
         }
         else if (action.StartsWith(ACTION_SWITCH_CARD))
         {
