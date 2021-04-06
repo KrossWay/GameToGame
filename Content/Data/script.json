@@ -389,7 +389,7 @@
                 ]
             }
             , {
-                "Conditions":[ "detail_done_84ee35751733" ],
+                "Conditions":[ "final_b6e4d9d760fa" ],
                 "Dialog":[
                     { "Speaker": "Hero", "Text": "Там какой-то шум, нужно проверить!"},
                     { "Text": "Два рядовых солдата ругаются друг с другом, о чем-то спорят, не замечая приближения капрала."},
@@ -590,6 +590,9 @@
                     , { "Speaker": "Hero", "Text": "Какой Жук Короныч"}
                     , { "Speaker": "Character", "Text": "Прграммный"}
                     , { "Speaker": "Hero", "Text": "Такого не знаю, ты верхней височной извилиной ошибся"}
+                ]
+                , "Actions":[ 
+                    "If detail_done_84ee35751733 waited_wKTG8e1bCg"
                 ]
             }
         ]
