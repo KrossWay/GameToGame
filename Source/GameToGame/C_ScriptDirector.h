@@ -17,13 +17,25 @@ public:
     AC_ScriptDirector();
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void SwitchAct(const FString &act_name);
-
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialog(const AC_MasterCard *interact_card, CardType& card_type, TArray<FDialogUnit>& dialog, TArray<FButtonText>& answers);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void ProcessDialogResult(const int32 answer_idx, ActionWithCard &action_with_card, FString &new_card_name);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void SwitchAct(const FString &act_name);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void GetAct(FString &act_name);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void GetActsList(TArray<FString> &acts_names);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void GetCardsList(TArray<FString> &cards_names);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void ClearAllPrints();
 
 private:
     Script_p script;

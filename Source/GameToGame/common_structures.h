@@ -39,6 +39,13 @@ enum class CardEmotion : uint8
     EMOTION_NONE = 255 UMETA(DisplayName = "Пустота")
 };
 
+UENUM(BlueprintType)
+enum class TestMode : uint8
+{
+    TEST_MODE_SELECT_CARD = 0 UMETA(DisplayName = "Select a card"),
+    TEST_MODE_SELECT_ACT = 1 UMETA(DisplayName = "Select an act"),
+};
+
 USTRUCT(Blueprintable)
 struct FButtonText 
 {

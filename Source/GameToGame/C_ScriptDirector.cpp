@@ -14,6 +14,43 @@ AC_ScriptDirector::AC_ScriptDirector()
     script = load_script_from_file(SCRIPT_FILENAME);
 }
 
+void AC_ScriptDirector::GetCardsList_Implementation(TArray<FString>& cards_names)
+{
+    ULOG(Log, "Getting the current act name...");
+
+    const auto& act = script->FindChecked(current_act);
+    // const auto* card_found = act->Find(card_name);
+
+    act->GetKeys(cards_names);
+
+    ULOG(Log, "Retruning cards names:");
+    for (const auto& card_name : cards_names)
+        ULOG(Log, "\n%s", *card_name);
+}
+
+void AC_ScriptDirector::GetAct_Implementation(FString& act_name)
+{
+    ULOG(Log, "Getting the current act name...");
+    act_name = current_act;
+}
+
+void AC_ScriptDirector::ClearAllPrints_Implementation()
+{
+    ULOG(Log, "Clearing all the prints...");
+    GEngine->ClearOnScreenDebugMessages();
+}
+
+void AC_ScriptDirector::GetActsList_Implementation(TArray<FString> &acts_names)
+{
+    ULOG(Log, "Grabbing all the acts...");
+
+    script->GetKeys(acts_names);
+
+    ULOG(Log, "Returning acts names:");
+    for (const auto& act_name : acts_names)
+        ULOG(Log, "\n%s", *act_name);
+}
+
 void AC_ScriptDirector::SwitchAct_Implementation(const FString &act_name)
 {
     ULOG(Log, "Switching act to \"%s\".", *act_name);
