@@ -44,6 +44,7 @@ enum class TestMode : uint8
 {
     TEST_MODE_SELECT_CARD = 0 UMETA(DisplayName = "Select a card"),
     TEST_MODE_SELECT_ACT = 1 UMETA(DisplayName = "Select an act"),
+    TEST_MODE_WAIT_ANSWER = 2 UMETA(DisplayName = "Wait an answer"),
 };
 
 USTRUCT(Blueprintable)
