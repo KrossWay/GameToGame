@@ -193,7 +193,7 @@ void AC_ScriptDirector::process_output_answers(const Answers_t& answers_source, 
     ULOG_FFINISH;
 }
 
-bool AC_ScriptDirector::is_conditions_proper(const Conditions_t &conditions)
+bool AC_ScriptDirector::is_conditions_proper(const Conditions_t &conditions) const
 {
     if (conditions.Contains("Default"))
         return true;
