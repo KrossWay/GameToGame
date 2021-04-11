@@ -18,10 +18,8 @@ void AC_ScriptDirector::GetCardsList_Implementation(TArray<FString>& cards_names
 {
     ULOG(Log, "Getting the current act name...");
 
-    const auto& act = script->FindChecked(current_act);
-    // const auto* card_found = act->Find(card_name);
-
-    act->GetKeys(cards_names);
+    const auto* act = script->Find(current_act);
+    (*act)->GetKeys(cards_names);
 
     ULOG(Log, "Retruning cards names:");
     for (const auto& card_name : cards_names)
@@ -69,8 +67,13 @@ void AC_ScriptDirector::ProcessDialog_Implementation(const AC_MasterCard* intera
     }
 
     const FString& card_name = interact_card->card_name;
-    const auto& act = script->FindChecked(current_act);
-    const auto* card_found = act->Find(card_name);
+    const auto* act = script->Find(current_act);
+    if (!act)
+    {
+        ULOG(Error, "Select the act first! \"%s\"", *current_act);
+        return;
+    }
+    const auto* card_found = (*act)->Find(card_name);
     if (card_found)
     {
         ULOG(Log, "Processing card with card name: \"%s\"", *card_name);
