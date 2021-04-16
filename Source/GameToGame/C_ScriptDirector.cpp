@@ -124,7 +124,10 @@ void AC_ScriptDirector::ProcessDialogResult_Implementation(const int32 answer_id
 
     if (stored_answers_actions.Num())
     {
-        if(stored_condition_actions)
+        if (stored_answers_actions.Num() <= answer_idx) {
+            ULOG(Error, "Are you insane? %d is not valid number of answer. We have only %d.", answer_idx, stored_answers_actions.Num());
+        }
+        else if(stored_condition_actions)
             stored_condition_actions->Insert(*stored_answers_actions[answer_idx], 0);
         else
             ULOG(Error, "Are you insane? Call the ProcessDialog() first.");
